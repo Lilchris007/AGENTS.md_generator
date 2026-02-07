@@ -9,6 +9,41 @@ from .node import commands_from_node, detect_node
 from .python import commands_from_python, detect_python
 
 
+COMMON_SOURCE_DIRS = [
+    "src",
+    "app",
+    "apps",
+    "services",
+    "packages",
+    "frontend",
+    "backend",
+    "client",
+    "server",
+    "web",
+    "api",
+    "worker",
+    "workers",
+    "cmd",
+    "internal",
+]
+
+
+COMMON_CONFIG_FILES = [
+    "Makefile",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "pytest.ini",
+    "ruff.toml",
+    "mypy.ini",
+    "docker-compose.yml",
+    "docker-compose.yaml",
+]
+
+
 def _detect_stack(py: bool, node: bool) -> str:
     if py and node:
         return "mixed"
@@ -34,6 +69,18 @@ def detect_repo(repo: Path) -> DetectResult:
         if (repo / dname).is_dir():
             res.paths[key] = f"{dname}/"
 
+    # Structure hints: top-level source dirs + config files. (Cheap signals only.)
+    source_dirs: list[str] = []
+    for d in COMMON_SOURCE_DIRS:
+        if (repo / d).is_dir():
+            source_dirs.append(d)
+    config_locations: list[str] = []
+    for f in COMMON_CONFIG_FILES:
+        if (repo / f).is_file():
+            config_locations.append(f)
+    if (repo / ".github" / "workflows").is_dir():
+        config_locations.append(".github/workflows/")
+
     # CI evidence
     ci = detect_github_actions(repo)
     if ci:
@@ -56,6 +103,13 @@ def detect_repo(repo: Path) -> DetectResult:
     if node:
         res.evidence.node.extend(node.evidence)
         res.rationale.append(f"Detected node package manager '{node.package_manager}' based on lockfile(s).")
+
+        # If we detected node only via nested package.json (monorepo-ish), use those dirs as source hints.
+        for ev in node.evidence:
+            if ev.endswith("package.json") and "/" in ev:
+                d = ev.split("/", 1)[0]
+                if (repo / d).is_dir() and d not in source_dirs:
+                    source_dirs.append(d)
 
     # Monorepo hint: if root has no sentinel, look a bit deeper (cheap scan).
     if py is None and node is None:
@@ -96,6 +150,20 @@ def detect_repo(repo: Path) -> DetectResult:
     res.project["primary_stack"] = primary_stack
     res.project["name"] = repo.name
     res.project["repo_root"] = "."
+
+    # Attach structure hints to paths so they flow into ProjectInfo (used by the structure section).
+    if source_dirs:
+        res.paths["source_dirs"] = sorted(set(source_dirs))
+    if config_locations:
+        # Keep stable order, but de-dup.
+        seen: set[str] = set()
+        out: list[str] = []
+        for x in config_locations:
+            if x in seen:
+                continue
+            seen.add(x)
+            out.append(x)
+        res.paths["config_locations"] = out
 
     # Determine commands by priority:
     # 1) Makefile

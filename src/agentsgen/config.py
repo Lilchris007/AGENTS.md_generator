@@ -100,6 +100,14 @@ class ToolConfig:
         stack_for_templates = primary_stack if primary_stack in ("python", "node", "static") else "static"
 
         info = ProjectInfo(project_name=project_name or "", stack=stack_for_templates).normalized()
+        # Structure hints from detection/config.
+        sd = cfg.paths.get("source_dirs", []) if isinstance(cfg.paths, dict) else []
+        cl = cfg.paths.get("config_locations", []) if isinstance(cfg.paths, dict) else []
+        if isinstance(sd, list):
+            info.source_dirs = [str(x) for x in sd if str(x).strip()]
+        if isinstance(cl, list):
+            info.config_locations = [str(x) for x in cl if str(x).strip()]
+
         # Preserve derived details where available.
         if "node_package_manager" in cfg.project:
             info.package_manager = str(cfg.project.get("node_package_manager") or "")

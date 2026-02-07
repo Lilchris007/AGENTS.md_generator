@@ -165,6 +165,25 @@ def init(
 
     if cfg_path.exists() and not force_config:
         cfg = load_tool_config(target)
+        if autodetect:
+            # Conservative refresh: only fill missing structure hints so `structure` isn't a placeholder.
+            det = detect_repo(target)
+            det_cfg = ToolConfig.from_detect(det)
+            paths = dict(cfg.paths or {})
+            det_paths = dict(det_cfg.paths or {})
+
+            changed = False
+            for k in ["source_dirs", "config_locations"]:
+                cur = paths.get(k)
+                if not cur:
+                    if det_paths.get(k):
+                        paths[k] = det_paths[k]
+                        changed = True
+            if changed:
+                cfg.paths = paths
+                cfg = ToolConfig.from_json(cfg.to_json())
+                if not dry_run:
+                    save_tool_config(target, cfg)
     else:
         if autodetect:
             det = detect_repo(target)

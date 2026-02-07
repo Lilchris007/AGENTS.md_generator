@@ -36,6 +36,9 @@ def test_detect_node_pnpm() -> None:
     assert res.project.get("node_package_manager") == "pnpm"
     assert res.commands.get("test", "").startswith("pnpm")
     assert res.commands.get("dev", "").startswith("pnpm")
+    # structure hints should exist when config files are present
+    assert "config_locations" in res.paths
+    assert "package.json" in res.paths["config_locations"]
 
 
 def test_makefile_dominates_scripts_and_python() -> None:
