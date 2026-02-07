@@ -1,0 +1,3 @@
+[console_scripts]
+agents = agentsgen.cli:app
+agentsgen = agentsgen.cli:app

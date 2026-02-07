@@ -1,0 +1,2 @@
+[console_scripts]
+agentsmd-generator = agentsmd_generator.cli:main

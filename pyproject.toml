@@ -1,0 +1,31 @@
+[project]
+name = "agentsgen"
+version = "0.1.0"
+description = "Generate and safely update AGENTS.md and RUNBOOK.md for coding agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+authors = [
+  { name = "Anton" }
+]
+
+dependencies = [
+  "typer>=0.12,<1.0",
+  "rich>=13,<14",
+  "jinja2>=3.1,<4"
+]
+
+[project.scripts]
+agentsgen = "agentsgen.cli:main"
+agents = "agentsgen.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+agentsgen = ["templates/**/*.tpl", "templates/**/*.md", "templates/**/*.j2"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"

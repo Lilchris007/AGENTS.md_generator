@@ -1,0 +1,30 @@
+{% set fast = commands.fast|default("") %}
+{% set full = commands.full|default("") %}
+
+### Verification (don’t trust yourself, verify)
+
+#### Fast checks (run often)
+{% if fast %}
+```bash
+{{ fast }}
+```
+{% else %}
+- Define a fast check for this repo (lint / unit tests / smoke test).
+- If none exists, add a minimal smoke check.
+{% endif %}
+
+#### Full checks (run before finalizing)
+{% if full %}
+```bash
+{{ full }}
+```
+{% else %}
+- Run the repo’s full test suite (or the closest equivalent).
+{% endif %}
+
+#### If checks cannot be run
+State:
+- why (missing deps / CI-only / platform),
+- what to run,
+- expected outcome.
+
