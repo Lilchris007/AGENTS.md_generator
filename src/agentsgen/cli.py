@@ -16,7 +16,24 @@ from .model import ProjectInfo
 from .stacks import adapter_for
 from .stacks.base import project_name_from_dir
 
-app = typer.Typer(add_completion=False, help="Generate and safely update AGENTS.md/RUNBOOK.md")
+from . import __version__
+
+
+app = typer.Typer(
+    add_completion=False,
+    help="Generate and safely update AGENTS.md/RUNBOOK.md",
+    invoke_without_command=True,
+    no_args_is_help=True,
+)
+
+
+@app.callback()
+def _root(
+    version: bool = typer.Option(False, "--version", help="Print version and exit", is_eager=True),
+) -> None:
+    if version:
+        console.print(__version__)
+        raise typer.Exit(code=0)
 console = Console(stderr=False)
 err_console = Console(stderr=True)
 
@@ -227,6 +244,7 @@ def doctor(
 def detect(
     repo: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
     format: str = typer.Option("text", "--format", help="Output format: text|json"),
+    explain: bool = typer.Option(False, "--explain", help="Print rationale (why detection chose these values)"),
 ):
     """Detect stack/tooling/commands using safe heuristics and print evidence."""
     det = detect_repo(repo)
@@ -239,6 +257,14 @@ def detect(
         console.print("commands:")
         for k in sorted(det.commands.keys()):
             console.print(f"- {k}: {det.commands[k]}")
+    else:
+        console.print("commands: (none)")
+
+    if explain and det.rationale:
+        console.print("rationale:")
+        for r in det.rationale:
+            console.print(f"- {r}")
+
     console.print("evidence:")
     for k, v in det.to_json().get("evidence", {}).items():
         if v:

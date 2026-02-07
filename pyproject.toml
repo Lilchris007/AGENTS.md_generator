@@ -19,6 +19,12 @@ dependencies = [
 agentsgen = "agentsgen.cli:main"
 agents = "agentsgen.cli:main"
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<10",
+  "ruff>=0.6,<1.0"
+]
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 

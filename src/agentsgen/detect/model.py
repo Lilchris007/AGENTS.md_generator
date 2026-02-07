@@ -18,6 +18,7 @@ class DetectResult:
     paths: dict[str, Any] = field(default_factory=dict)
     commands: dict[str, str] = field(default_factory=dict)
     evidence: Evidence = field(default_factory=Evidence)
+    rationale: list[str] = field(default_factory=list)
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -30,5 +31,5 @@ class DetectResult:
                 "make": self.evidence.make,
                 "ci": self.evidence.ci,
             },
+            "rationale": list(self.rationale),
         }
-

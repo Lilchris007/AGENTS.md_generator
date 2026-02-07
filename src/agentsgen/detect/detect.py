@@ -44,14 +44,18 @@ def detect_repo(repo: Path) -> DetectResult:
     if make:
         res.evidence.make.append(make.path)
         res.evidence.make.extend([f"target:{t}" for t in make.targets])
+        res.rationale.append(f"Using Makefile targets because {make.path} exists.")
 
     py = detect_python(repo)
     if py:
         res.evidence.python.extend(py.evidence)
+        if py.toolchain != "vanilla":
+            res.rationale.append(f"Detected python toolchain '{py.toolchain}' based on lockfile/tool config.")
 
     node = detect_node(repo)
     if node:
         res.evidence.node.extend(node.evidence)
+        res.rationale.append(f"Detected node package manager '{node.package_manager}' based on lockfile(s).")
 
     # Monorepo hint: if root has no sentinel, look a bit deeper (cheap scan).
     if py is None and node is None:
@@ -85,6 +89,8 @@ def detect_repo(repo: Path) -> DetectResult:
             res.evidence.python.extend(found_py)
 
         primary_stack = _detect_stack(bool(found_py), bool(found_pkg))
+        if primary_stack == "mixed":
+            res.rationale.append("Detected monorepo/mixed stack via nested package.json and pyproject.toml (no root sentinel).")
     else:
         primary_stack = _detect_stack(py is not None, node is not None)
     res.project["primary_stack"] = primary_stack
@@ -108,13 +114,19 @@ def detect_repo(repo: Path) -> DetectResult:
                 if alt in make.targets:
                     cmds["dev"] = f"make {alt}"
                     break
+        if cmds:
+            res.rationale.append("Commands sourced from Makefile (highest priority).")
     if not cmds and node:
         cmds.update(commands_from_node(node))
         # Record package manager when detected.
         res.project["node_package_manager"] = node.package_manager
+        if cmds:
+            res.rationale.append("Commands sourced from package.json scripts.")
     if not cmds and py:
         cmds.update(commands_from_python(py))
         res.project["python_toolchain"] = py.toolchain
+        if cmds:
+            res.rationale.append("Commands sourced from python toolchain heuristics.")
 
     # Always preserve that we saw scripts/configs, even when Makefile dominates.
     if make and node:

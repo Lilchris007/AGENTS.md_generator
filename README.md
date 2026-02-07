@@ -39,6 +39,16 @@ agentsgen init --defaults --stack python --dry-run --print-diff
 pipx uninstall agentsgen
 ```
 
+## Snapshot Commits
+
+If you want cheap “backup commits” with a green-test gate:
+
+```sh
+make snapshot
+```
+
+This runs `ruff format`, `ruff check`, `pytest`, then commits only if there are changes and tests are green.
+
 ## Definition Of Done (DoD)
 
 - `agentsgen init` works in an empty folder and creates:
@@ -58,4 +68,3 @@ pipx uninstall agentsgen
 ## Contributing
 
 Template PRs welcome (shared sections and stack-specific notes).
-
