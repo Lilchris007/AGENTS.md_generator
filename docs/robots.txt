@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://markoblogo.github.io/AGENTS.md_generator/sitemap.xml
-
+Sitemap: https://agentsmd.abvx.xyz/sitemap.xml
