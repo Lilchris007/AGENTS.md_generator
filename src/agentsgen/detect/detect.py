@@ -11,10 +11,12 @@ from .python import commands_from_python, detect_python
 
 COMMON_SOURCE_DIRS = [
     "src",
+    "lib",
     "app",
     "apps",
     "services",
     "packages",
+    "infra",
     "frontend",
     "backend",
     "client",

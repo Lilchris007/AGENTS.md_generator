@@ -59,3 +59,12 @@ def test_monorepo_mixed_no_root_commands() -> None:
     ev = res.to_json()["evidence"]
     assert any("package.json" in x for x in ev["node"])
     assert any("pyproject.toml" in x for x in ev["python"])
+
+
+def test_structure_common_dirs_detected() -> None:
+    repo = FIXTURES / "structure_common_dirs"
+    res = detect_repo(repo)
+    sd = res.paths.get("source_dirs", [])
+    assert "lib" in sd
+    assert "infra" in sd
+    assert "packages" in sd
