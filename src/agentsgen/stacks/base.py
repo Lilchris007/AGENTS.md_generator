@@ -10,7 +10,9 @@ from ..model import ProjectInfo
 class StackAdapter:
     name: str
 
-    def default_info(self, target: Path, project_name: str) -> ProjectInfo:  # pragma: no cover
+    def default_info(
+        self, target: Path, project_name: str
+    ) -> ProjectInfo:  # pragma: no cover
         raise NotImplementedError
 
 

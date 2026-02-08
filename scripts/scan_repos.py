@@ -4,7 +4,6 @@ import argparse
 import datetime as dt
 import json
 import os
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -33,7 +32,14 @@ def iter_git_repos(roots: list[Path], max_depth: int) -> list[Path]:
             if not e.is_dir():
                 continue
             name = e.name
-            if name in {".venv", "node_modules", ".tox", ".mypy_cache", ".pytest_cache", ".git"}:
+            if name in {
+                ".venv",
+                "node_modules",
+                ".tox",
+                ".mypy_cache",
+                ".pytest_cache",
+                ".git",
+            }:
                 continue
             if is_git_repo(e):
                 repos.append(e)
@@ -82,7 +88,9 @@ def run_repo(repo: Path) -> dict[str, Any]:
             cfg = ToolConfig.from_detect(det)
 
         # Simulate what init/update would do (no diffs, no writes).
-        res = apply_config(repo, cfg, write_prompts=False, dry_run=True, print_diff=False)
+        res = apply_config(
+            repo, cfg, write_prompts=False, dry_run=True, print_diff=False
+        )
         row["plan"] = [
             {
                 "path": str(r.path),
@@ -106,7 +114,7 @@ def run_repo(repo: Path) -> dict[str, Any]:
 
 def render_md(report: dict[str, Any]) -> str:
     lines: list[str] = []
-    lines.append(f"# agentsgen migration scan")
+    lines.append("# agentsgen migration scan")
     lines.append("")
     lines.append(f"Scanned at: `{report['meta']['timestamp']}`")
     lines.append(f"Roots: {', '.join('`'+r+'`' for r in report['meta']['roots'])}")
@@ -119,10 +127,14 @@ def render_md(report: dict[str, Any]) -> str:
 
     lines.append(f"- Total repos: **{total}**")
     lines.append(f"- Failed scans: **{failed}**")
-    lines.append(f"- Need manual markers (will produce `*.generated.md`): **{needs_manual}**")
+    lines.append(
+        f"- Need manual markers (will produce `*.generated.md`): **{needs_manual}**"
+    )
     lines.append("")
 
-    lines.append("| repo | stack | AGENTS.md | RUNBOOK.md | has config | plan summary | errors |")
+    lines.append(
+        "| repo | stack | AGENTS.md | RUNBOOK.md | has config | plan summary | errors |"
+    )
     lines.append("|---|---|---:|---:|---:|---|---|")
 
     for r in rows:
@@ -174,18 +186,37 @@ def render_md(report: dict[str, Any]) -> str:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Scan many git repos and report agentsgen migration plan (dry-run only)")
-    ap.add_argument("--root", action="append", required=True, help="Root directory to scan (repeatable)")
-    ap.add_argument("--max-depth", type=int, default=2, help="Max directory depth under roots")
-    ap.add_argument("--out", default="", help="Write markdown report to this path (default: /tmp/...) ")
-    ap.add_argument("--json-out", default="", help="Write json report to this path (default: /tmp/...) ")
+    ap = argparse.ArgumentParser(
+        description="Scan many git repos and report agentsgen migration plan (dry-run only)"
+    )
+    ap.add_argument(
+        "--root",
+        action="append",
+        required=True,
+        help="Root directory to scan (repeatable)",
+    )
+    ap.add_argument(
+        "--max-depth", type=int, default=2, help="Max directory depth under roots"
+    )
+    ap.add_argument(
+        "--out",
+        default="",
+        help="Write markdown report to this path (default: /tmp/...) ",
+    )
+    ap.add_argument(
+        "--json-out",
+        default="",
+        help="Write json report to this path (default: /tmp/...) ",
+    )
 
     args = ap.parse_args()
 
     roots = [Path(os.path.expanduser(r)).resolve() for r in args.root]
     ts = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     md_out = Path(args.out) if args.out else Path(f"/tmp/agentsgen-scan-{ts}.md")
-    js_out = Path(args.json_out) if args.json_out else Path(f"/tmp/agentsgen-scan-{ts}.json")
+    js_out = (
+        Path(args.json_out) if args.json_out else Path(f"/tmp/agentsgen-scan-{ts}.json")
+    )
 
     repos = iter_git_repos(roots, max_depth=args.max_depth)
     data = {

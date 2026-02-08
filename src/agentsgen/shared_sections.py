@@ -86,7 +86,9 @@ def render_workflow(cfg: dict[str, Any]) -> str:
 
     wf = (defaults.get("workflow", {}) or {}) if isinstance(defaults, dict) else {}
     thin_slices = bool(wf.get("thin_slices", True))
-    commit_types = wf.get("recommended_commit_types", ["feat", "fix", "test", "docs", "refactor"])
+    commit_types = wf.get(
+        "recommended_commit_types", ["feat", "fix", "test", "docs", "refactor"]
+    )
     commit_types = [str(x) for x in (commit_types or []) if str(x).strip()]
 
     thin = (
@@ -296,7 +298,9 @@ def render_repo_context(cfg: dict[str, Any]) -> str:
     parts.append("")
     parts.append("- Prefer the repo's existing toolchain (don't upgrade it).")
     parts.append("- If you need new env vars: document names, don't invent secrets.")
-    parts.append("- If a command fails due to missing deps, explain the minimal install step.")
+    parts.append(
+        "- If a command fails due to missing deps, explain the minimal install step."
+    )
     parts.append("")
     parts.append("#### Where to put new things")
     parts.append("")
@@ -315,4 +319,3 @@ def render_all_shared(cfg: dict[str, Any]) -> dict[str, str]:
         "style": render_style(cfg),
         "verification": render_verification(cfg),
     }
-

@@ -63,7 +63,9 @@ class NodeAdapter(StackAdapter):
                 "build": "pnpm build",
             }
 
-        commands["single_test"] = "(depends on test runner; e.g. `pnpm test -- -t name` or `pnpm vitest path/to.test.ts`)"
+        commands["single_test"] = (
+            "(depends on test runner; e.g. `pnpm test -- -t name` or `pnpm vitest path/to.test.ts`)"
+        )
 
         return ProjectInfo(
             project_name=project_name,

@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .constants import MARKER_PREFIX, end_marker, start_marker
+from .constants import MARKER_PREFIX
 
 
 @dataclass(frozen=True)
@@ -150,7 +150,9 @@ def extract_section_content(text: str, section: str) -> str | None:
     return text[r.content_start : r.content_end]
 
 
-def replace_section_content(text: str, section: str, new_content: str) -> tuple[str, bool]:
+def replace_section_content(
+    text: str, section: str, new_content: str
+) -> tuple[str, bool]:
     r = find_section_range(text, section)
     if r is None:
         return text, False

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 import tempfile
 from pathlib import Path
 
@@ -26,7 +25,7 @@ def test1_init_creates_files_and_config() -> None:
         }
         cfg = ToolConfig.from_project_info(info)
         save_tool_config(target, cfg)
-        res = apply_config(target, cfg, write_prompts=True, dry_run=False, print_diff=False)
+        apply_config(target, cfg, write_prompts=True, dry_run=False, print_diff=False)
 
         assert (target / ".agentsgen.json").is_file()
         assert (target / "AGENTS.md").is_file()
@@ -56,7 +55,9 @@ def test2_update_preserves_outside_markers() -> None:
         agents = target / "AGENTS.md"
         original = _read(agents)
         # Add user content outside markers at end.
-        agents.write_text(original + "\n## User Notes\n\nDo not delete this.\n", encoding="utf-8")
+        agents.write_text(
+            original + "\n## User Notes\n\nDo not delete this.\n", encoding="utf-8"
+        )
 
         # Change a command and re-run.
         info.commands["test"] = "npm test -- --runInBand"
@@ -88,7 +89,7 @@ def test3_no_markers_creates_generated_files() -> None:
 
         cfg = ToolConfig.from_project_info(info)
         save_tool_config(target, cfg)
-        res = apply_config(target, cfg, write_prompts=False, dry_run=False, print_diff=False)
+        apply_config(target, cfg, write_prompts=False, dry_run=False, print_diff=False)
 
         assert agents.is_file()
         assert runbook.is_file()

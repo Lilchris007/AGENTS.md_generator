@@ -46,7 +46,11 @@ class ToolConfig:
     evidence: dict[str, Any] = field(default_factory=dict)
 
     # Back-compat + internal convenience for stack templates/summary.
-    project_info: ProjectInfo = field(default_factory=lambda: ProjectInfo(project_name="", stack="static").normalized())
+    project_info: ProjectInfo = field(
+        default_factory=lambda: ProjectInfo(
+            project_name="", stack="static"
+        ).normalized()
+    )
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -70,7 +74,11 @@ class ToolConfig:
         if "version" not in d and "project_name" in d and "stack" in d:
             info = ProjectInfo.from_json(d)
             cfg = ToolConfig(project_info=info)
-            cfg.project = {"name": info.project_name, "primary_stack": info.stack, "repo_root": "."}
+            cfg.project = {
+                "name": info.project_name,
+                "primary_stack": info.stack,
+                "repo_root": ".",
+            }
             return cfg
 
         cfg = ToolConfig()
@@ -97,12 +105,18 @@ class ToolConfig:
         # Derive internal ProjectInfo for existing render pipeline.
         project_name = str(cfg.project.get("name", "")) or ""
         primary_stack = str(cfg.project.get("primary_stack", "")) or ""
-        stack_for_templates = primary_stack if primary_stack in ("python", "node", "static") else "static"
+        stack_for_templates = (
+            primary_stack if primary_stack in ("python", "node", "static") else "static"
+        )
 
-        info = ProjectInfo(project_name=project_name or "", stack=stack_for_templates).normalized()
+        info = ProjectInfo(
+            project_name=project_name or "", stack=stack_for_templates
+        ).normalized()
         # Structure hints from detection/config.
         sd = cfg.paths.get("source_dirs", []) if isinstance(cfg.paths, dict) else []
-        cl = cfg.paths.get("config_locations", []) if isinstance(cfg.paths, dict) else []
+        cl = (
+            cfg.paths.get("config_locations", []) if isinstance(cfg.paths, dict) else []
+        )
         if isinstance(sd, list):
             info.source_dirs = [str(x) for x in sd if str(x).strip()]
         if isinstance(cl, list):
@@ -114,7 +128,17 @@ class ToolConfig:
         if "python_toolchain" in cfg.project:
             info.python_tooling = str(cfg.project.get("python_toolchain") or "")
         # Map detected commands into ProjectInfo (only the keys it uses).
-        for k in ["install", "dev", "test", "lint", "format", "build", "typecheck", "fast", "full"]:
+        for k in [
+            "install",
+            "dev",
+            "test",
+            "lint",
+            "format",
+            "build",
+            "typecheck",
+            "fast",
+            "full",
+        ]:
             v = str(cfg.commands.get(k, "") or "").strip()
             if v:
                 info.commands[k] = v

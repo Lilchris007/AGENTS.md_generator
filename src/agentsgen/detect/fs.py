@@ -26,4 +26,3 @@ def list_files(target: Path, rel_dir: str) -> list[str]:
         if p.is_file():
             out.append(str(p.relative_to(target)))
     return out
-
