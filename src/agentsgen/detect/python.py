@@ -63,7 +63,11 @@ def detect_python(repo: Path) -> PythonInfo | None:
 
     has_ruff = (repo / "ruff.toml").is_file() or "[tool.ruff]" in pyproject_text
     if has_ruff:
-        evidence.append("ruff.toml" if (repo / "ruff.toml").is_file() else "pyproject.toml:[tool.ruff]")
+        evidence.append(
+            "ruff.toml"
+            if (repo / "ruff.toml").is_file()
+            else "pyproject.toml:[tool.ruff]"
+        )
 
     has_black = "[tool.black]" in pyproject_text
     if has_black:
@@ -71,11 +75,21 @@ def detect_python(repo: Path) -> PythonInfo | None:
 
     has_mypy = (repo / "mypy.ini").is_file() or "[tool.mypy]" in pyproject_text
     if has_mypy:
-        evidence.append("mypy.ini" if (repo / "mypy.ini").is_file() else "pyproject.toml:[tool.mypy]")
+        evidence.append(
+            "mypy.ini"
+            if (repo / "mypy.ini").is_file()
+            else "pyproject.toml:[tool.mypy]"
+        )
 
-    has_pytest = (repo / "pytest.ini").is_file() or "[tool.pytest" in pyproject_text or "[tool.pytest.ini_options]" in pyproject_text
+    has_pytest = (
+        (repo / "pytest.ini").is_file()
+        or "[tool.pytest" in pyproject_text
+        or "[tool.pytest.ini_options]" in pyproject_text
+    )
     if has_pytest:
-        evidence.append("pytest.ini" if (repo / "pytest.ini").is_file() else "pyproject.toml:pytest")
+        evidence.append(
+            "pytest.ini" if (repo / "pytest.ini").is_file() else "pyproject.toml:pytest"
+        )
 
     return PythonInfo(
         toolchain=toolchain,
@@ -111,4 +125,3 @@ def commands_from_python(info: PythonInfo) -> dict[str, str]:
         cmds["typecheck"] = f"{runner}mypy .".strip()
 
     return cmds
-

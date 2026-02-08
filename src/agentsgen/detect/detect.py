@@ -66,8 +66,14 @@ def detect_repo(repo: Path) -> DetectResult:
         if (repo / f).is_file():
             docs.append(f)
     res.paths["docs"] = docs or ["README.md"]
-    res.paths["ci"] = ".github/workflows/" if (repo / ".github" / "workflows").is_dir() else ""
-    for dname, key in [("scripts", "scripts"), ("plans", "plans"), ("drafts", "drafts")]:
+    res.paths["ci"] = (
+        ".github/workflows/" if (repo / ".github" / "workflows").is_dir() else ""
+    )
+    for dname, key in [
+        ("scripts", "scripts"),
+        ("plans", "plans"),
+        ("drafts", "drafts"),
+    ]:
         if (repo / dname).is_dir():
             res.paths[key] = f"{dname}/"
 
@@ -99,12 +105,16 @@ def detect_repo(repo: Path) -> DetectResult:
     if py:
         res.evidence.python.extend(py.evidence)
         if py.toolchain != "vanilla":
-            res.rationale.append(f"Detected python toolchain '{py.toolchain}' based on lockfile/tool config.")
+            res.rationale.append(
+                f"Detected python toolchain '{py.toolchain}' based on lockfile/tool config."
+            )
 
     node = detect_node(repo)
     if node:
         res.evidence.node.extend(node.evidence)
-        res.rationale.append(f"Detected node package manager '{node.package_manager}' based on lockfile(s).")
+        res.rationale.append(
+            f"Detected node package manager '{node.package_manager}' based on lockfile(s)."
+        )
 
         # If we detected node only via nested package.json (monorepo-ish), use those dirs as source hints.
         for ev in node.evidence:
@@ -146,7 +156,9 @@ def detect_repo(repo: Path) -> DetectResult:
 
         primary_stack = _detect_stack(bool(found_py), bool(found_pkg))
         if primary_stack == "mixed":
-            res.rationale.append("Detected monorepo/mixed stack via nested package.json and pyproject.toml (no root sentinel).")
+            res.rationale.append(
+                "Detected monorepo/mixed stack via nested package.json and pyproject.toml (no root sentinel)."
+            )
     else:
         primary_stack = _detect_stack(py is not None, node is not None)
     res.project["primary_stack"] = primary_stack

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .constants import SECTION_NAMES
 from .model import ProjectInfo, RenderPlan
 from .render import load_template, render_template
 
@@ -13,10 +12,11 @@ def build_render_plan(info: ProjectInfo) -> RenderPlan:
     overview = "\n".join(
         [
             f"- **Project:** {info.project_name}",
-            f"- **Stack:** {info.stack}" + (
-                f" ({info.package_manager})" if info.package_manager else (
-                    f" ({info.python_tooling})" if info.python_tooling else ""
-                )
+            f"- **Stack:** {info.stack}"
+            + (
+                f" ({info.package_manager})"
+                if info.package_manager
+                else (f" ({info.python_tooling})" if info.python_tooling else "")
             ),
             "- Keep changes small and verifiable.",
         ]
@@ -56,11 +56,15 @@ def build_render_plan(info: ProjectInfo) -> RenderPlan:
         cmd_line("Format", "format"),
         cmd_line("Build", "build"),
     ]
-    commands = "\n".join([x for x in commands_lines if x]) or "- (no commands configured)"
+    commands = (
+        "\n".join([x for x in commands_lines if x]) or "- (no commands configured)"
+    )
 
     structure_parts: list[str] = []
     if info.source_dirs:
-        structure_parts.append("- **Source:** " + ", ".join([f"`{p}`" for p in info.source_dirs]))
+        structure_parts.append(
+            "- **Source:** " + ", ".join([f"`{p}`" for p in info.source_dirs])
+        )
     if info.config_locations:
         structure_parts.append(
             "- **Config:** " + ", ".join([f"`{p}`" for p in info.config_locations])
@@ -180,7 +184,16 @@ def render_agents_md(
 
 def render_runbook_md(info: ProjectInfo, template_path: Path) -> str:
     c = info.commands
-    quick_cmds = [x.strip() for x in [c.get("install", ""), c.get("dev", ""), c.get("test", ""), c.get("lint", "")] if x and x.strip()]
+    quick_cmds = [
+        x.strip()
+        for x in [
+            c.get("install", ""),
+            c.get("dev", ""),
+            c.get("test", ""),
+            c.get("lint", ""),
+        ]
+        if x and x.strip()
+    ]
 
     if quick_cmds:
         quickstart = "\n".join([f"```sh\n{cmd}\n```" for cmd in quick_cmds[:6]])
@@ -189,9 +202,24 @@ def render_runbook_md(info: ProjectInfo, template_path: Path) -> str:
 
     common_tasks = "\n".join(
         [
-            "- Run tests: " + (f"`{c.get('test','').strip()}`" if c.get("test", "").strip() else "(not set)"),
-            "- Lint: " + (f"`{c.get('lint','').strip()}`" if c.get("lint", "").strip() else "(not set)"),
-            "- Build: " + (f"`{c.get('build','').strip()}`" if c.get("build", "").strip() else "(not set)"),
+            "- Run tests: "
+            + (
+                f"`{c.get('test','').strip()}`"
+                if c.get("test", "").strip()
+                else "(not set)"
+            ),
+            "- Lint: "
+            + (
+                f"`{c.get('lint','').strip()}`"
+                if c.get("lint", "").strip()
+                else "(not set)"
+            ),
+            "- Build: "
+            + (
+                f"`{c.get('build','').strip()}`"
+                if c.get("build", "").strip()
+                else "(not set)"
+            ),
         ]
     )
 

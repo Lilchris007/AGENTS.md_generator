@@ -38,4 +38,3 @@ def parse_makefile_targets(repo: Path) -> MakefileInfo | None:
             targets.add(t)
         return MakefileInfo(path=name, targets=sorted(targets))
     return None
-

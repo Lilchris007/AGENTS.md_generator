@@ -66,8 +66,11 @@ def commands_from_node(info: NodeInfo) -> dict[str, str]:
     # fast check: prefer explicit scripts.
     for k in ["test:fast", "test:unit"]:
         if k in scripts:
-            cmds["fast"] = run(k) if pm == "npm" else (f"{pm} {k}" if pm != "npm" else f"npm run {k}")
+            cmds["fast"] = (
+                run(k)
+                if pm == "npm"
+                else (f"{pm} {k}" if pm != "npm" else f"npm run {k}")
+            )
             break
 
     return cmds
-

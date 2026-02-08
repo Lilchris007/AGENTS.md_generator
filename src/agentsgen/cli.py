@@ -9,7 +9,13 @@ from rich.table import Table
 
 import json
 
-from .actions import apply_config, check_repo, load_tool_config, save_tool_config, update_from_config
+from .actions import (
+    apply_config,
+    check_repo,
+    load_tool_config,
+    save_tool_config,
+    update_from_config,
+)
 from .config import ToolConfig
 from .detect import detect_repo
 from .model import ProjectInfo
@@ -29,11 +35,15 @@ app = typer.Typer(
 
 @app.callback()
 def _root(
-    version: bool = typer.Option(False, "--version", help="Print version and exit", is_eager=True),
+    version: bool = typer.Option(
+        False, "--version", help="Print version and exit", is_eager=True
+    ),
 ) -> None:
     if version:
         console.print(__version__)
         raise typer.Exit(code=0)
+
+
 console = Console(stderr=False)
 err_console = Console(stderr=True)
 
@@ -65,7 +75,11 @@ def _interactive_init(
 ) -> ProjectInfo:
     det = detect_repo(target)
     suggested = str(det.project.get("primary_stack", "static"))
-    confidence = "high" if (det.evidence.python or det.evidence.node or det.evidence.make) else "low"
+    confidence = (
+        "high"
+        if (det.evidence.python or det.evidence.node or det.evidence.make)
+        else "low"
+    )
     if suggested == "mixed":
         suggested = "static"
 
@@ -74,10 +88,14 @@ def _interactive_init(
         stack = (stack_opt or suggested).strip().lower()
         project_name = (name_opt or project_name_from_dir(target)).strip()
     else:
-        stack = typer.prompt(
-            f"Stack (node|python|static) [detected: {suggested}, {confidence}]",
-            default=(stack_opt or suggested),
-        ).strip().lower()
+        stack = (
+            typer.prompt(
+                f"Stack (node|python|static) [detected: {suggested}, {confidence}]",
+                default=(stack_opt or suggested),
+            )
+            .strip()
+            .lower()
+        )
 
         project_name = typer.prompt(
             "Project name",
@@ -104,11 +122,15 @@ def _interactive_init(
             info.commands[key] = val
 
     if stack == "node":
-        pm = typer.prompt("Package manager (npm|pnpm|yarn)", default=info.package_manager or "npm").strip()
+        pm = typer.prompt(
+            "Package manager (npm|pnpm|yarn)", default=info.package_manager or "npm"
+        ).strip()
         info.package_manager = pm
 
     if stack == "python":
-        tooling = typer.prompt("Python tooling (venv|poetry)", default=info.python_tooling or "venv").strip()
+        tooling = typer.prompt(
+            "Python tooling (venv|poetry)", default=info.python_tooling or "venv"
+        ).strip()
         info.python_tooling = tooling
 
     req("Install command", "install", info.commands.get("install", ""))
@@ -140,7 +162,9 @@ def _interactive_init(
         default=info.branching_model or "main",
     ).strip()
 
-    warns = typer.prompt("Special warnings (comma-separated, optional)", default="").strip()
+    warns = typer.prompt(
+        "Special warnings (comma-separated, optional)", default=""
+    ).strip()
     info.warnings = _parse_csv(warns)
 
     return info.normalized()
@@ -148,14 +172,32 @@ def _interactive_init(
 
 @app.command()
 def init(
-    target: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
-    defaults: bool = typer.Option(False, "--defaults", help="Use defaults (no prompts)"),
-    stack: str | None = typer.Option(None, "--stack", help="Override stack in --defaults mode"),
-    name: str | None = typer.Option(None, "--name", help="Override project name in --defaults mode"),
-    autodetect: bool = typer.Option(True, "--autodetect/--no-autodetect", help="Fill config using heuristic detection (read-only)"),
-    print_detect: bool = typer.Option(False, "--print-detect", help="Print detection evidence"),
-    force_config: bool = typer.Option(False, "--force-config", help="Overwrite .agentsgen.json"),
-    prompts: bool = typer.Option(True, "--prompts/--no-prompts", help="Write prompt/execspec.md"),
+    target: Path = typer.Argument(
+        Path("."), exists=True, file_okay=False, dir_okay=True
+    ),
+    defaults: bool = typer.Option(
+        False, "--defaults", help="Use defaults (no prompts)"
+    ),
+    stack: str | None = typer.Option(
+        None, "--stack", help="Override stack in --defaults mode"
+    ),
+    name: str | None = typer.Option(
+        None, "--name", help="Override project name in --defaults mode"
+    ),
+    autodetect: bool = typer.Option(
+        True,
+        "--autodetect/--no-autodetect",
+        help="Fill config using heuristic detection (read-only)",
+    ),
+    print_detect: bool = typer.Option(
+        False, "--print-detect", help="Print detection evidence"
+    ),
+    force_config: bool = typer.Option(
+        False, "--force-config", help="Overwrite .agentsgen.json"
+    ),
+    prompts: bool = typer.Option(
+        True, "--prompts/--no-prompts", help="Write prompt/execspec.md"
+    ),
     dry_run: bool = typer.Option(False, "--dry-run", help="Do not write files"),
     print_diff: bool = typer.Option(False, "--print-diff", help="Print unified diff"),
 ):
@@ -196,13 +238,17 @@ def init(
                 cfg.project["primary_stack"] = stack
             cfg = ToolConfig.from_json(cfg.to_json())
         else:
-            info = _interactive_init(target, defaults=defaults, stack_opt=stack, name_opt=name)
+            info = _interactive_init(
+                target, defaults=defaults, stack_opt=stack, name_opt=name
+            )
             cfg = ToolConfig.from_project_info(info)
 
         if not dry_run:
             save_tool_config(target, cfg)
 
-    results = apply_config(target, cfg, write_prompts=prompts, dry_run=dry_run, print_diff=print_diff)
+    results = apply_config(
+        target, cfg, write_prompts=prompts, dry_run=dry_run, print_diff=print_diff
+    )
 
     # Any error result => exit 1.
     errors = [r for r in results if r.action == "error"]
@@ -216,7 +262,9 @@ def init(
 
 @app.command()
 def update(
-    target: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
+    target: Path = typer.Argument(
+        Path("."), exists=True, file_okay=False, dir_okay=True
+    ),
     dry_run: bool = typer.Option(False, "--dry-run", help="Do not write files"),
     print_diff: bool = typer.Option(False, "--print-diff", help="Print unified diff"),
 ):
@@ -238,7 +286,9 @@ def update(
 
 @app.command(name="check")
 def check_cmd(
-    target: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
+    target: Path = typer.Argument(
+        Path("."), exists=True, file_okay=False, dir_okay=True
+    ),
 ):
     """Validate that repo is agentsgen-ready. Non-zero exit code on problems."""
     code, problems, warnings = check_repo(target)
@@ -252,7 +302,9 @@ def check_cmd(
 
 @app.command()
 def doctor(
-    target: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
+    target: Path = typer.Argument(
+        Path("."), exists=True, file_okay=False, dir_okay=True
+    ),
 ):
     """Alias for check."""
     code, problems, warnings = check_repo(target)
@@ -263,11 +315,14 @@ def doctor(
             err_console.print(f"- {p}")
     raise typer.Exit(code=code)
 
+
 @app.command()
 def detect(
     repo: Path = typer.Argument(Path("."), exists=True, file_okay=False, dir_okay=True),
     format: str = typer.Option("text", "--format", help="Output format: text|json"),
-    explain: bool = typer.Option(False, "--explain", help="Print rationale (why detection chose these values)"),
+    explain: bool = typer.Option(
+        False, "--explain", help="Print rationale (why detection chose these values)"
+    ),
 ):
     """Detect stack/tooling/commands using safe heuristics and print evidence."""
     det = detect_repo(repo)

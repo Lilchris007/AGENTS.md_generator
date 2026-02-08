@@ -12,7 +12,12 @@ from .constants import (
     RUNBOOK_FILENAME,
     RUNBOOK_GENERATED_FILENAME,
 )
-from .generate import render_agents_md, render_runbook_md, required_sections, template_paths
+from .generate import (
+    render_agents_md,
+    render_runbook_md,
+    required_sections,
+    template_paths,
+)
 from .generate import required_runbook_sections
 from .io_utils import read_json, read_text, write_json_atomic, write_text_atomic
 from .markers import (
@@ -61,7 +66,9 @@ def _unified_diff(path: Path, old: str, new: str) -> str:
     )
 
 
-def _patch_existing_with_generated(existing: str, generated: str, sections: list[str]) -> tuple[str, list[str]]:
+def _patch_existing_with_generated(
+    existing: str, generated: str, sections: list[str]
+) -> tuple[str, list[str]]:
     missing: list[str] = []
 
     for sec in sections:
@@ -91,8 +98,14 @@ def _render_all(cfg: ToolConfig) -> tuple[str, str]:
     base = templates_base_dir()
     agents_tpl, runbook_tpl = template_paths(base, info.stack)
 
-    configs_hint = ", ".join([f"`{p}`" for p in info.config_locations]) if info.config_locations else "(not specified)"
-    single_test_hint = (info.commands.get("single_test", "") or "(not specified)").strip()
+    configs_hint = (
+        ", ".join([f"`{p}`" for p in info.config_locations])
+        if info.config_locations
+        else "(not specified)"
+    )
+    single_test_hint = (
+        info.commands.get("single_test", "") or "(not specified)"
+    ).strip()
     shared = _render_shared_blocks(cfg)
 
     agents_md = render_agents_md(
@@ -107,7 +120,9 @@ def _render_all(cfg: ToolConfig) -> tuple[str, str]:
     return normalize_markdown(agents_md), normalize_markdown(runbook_md)
 
 
-def _write_or_diff(path: Path, new_content: str, dry_run: bool, print_diff: bool) -> tuple[bool, str]:
+def _write_or_diff(
+    path: Path, new_content: str, dry_run: bool, print_diff: bool
+) -> tuple[bool, str]:
     if path.exists():
         old = read_text(path)
         old_n = normalize_markdown(old)
@@ -143,15 +158,23 @@ def _handle_file(
     # - exists w/o markers: do not touch, create *.generated.md
 
     if not path.exists():
-        changed, d = _write_or_diff(path, generated_full, dry_run=dry_run, print_diff=print_diff)
-        return FileResult(path=path, action="created", message="created", changed=changed, diff=d)
+        changed, d = _write_or_diff(
+            path, generated_full, dry_run=dry_run, print_diff=print_diff
+        )
+        return FileResult(
+            path=path, action="created", message="created", changed=changed, diff=d
+        )
 
     existing = read_text(path)
     if not has_any_agentsgen_markers(existing):
         gen_path = path.with_name(
-            AGENTS_GENERATED_FILENAME if path.name == AGENTS_FILENAME else RUNBOOK_GENERATED_FILENAME
+            AGENTS_GENERATED_FILENAME
+            if path.name == AGENTS_FILENAME
+            else RUNBOOK_GENERATED_FILENAME
         )
-        changed, d = _write_or_diff(gen_path, generated_full, dry_run=dry_run, print_diff=print_diff)
+        changed, d = _write_or_diff(
+            gen_path, generated_full, dry_run=dry_run, print_diff=print_diff
+        )
         return FileResult(
             path=gen_path,
             action="generated",
@@ -165,7 +188,9 @@ def _handle_file(
         msg = "; ".join([p.message for p in problems])
         return FileResult(path=path, action="error", message=msg)
 
-    patched, missing = _patch_existing_with_generated(existing, generated_full, required)
+    patched, missing = _patch_existing_with_generated(
+        existing, generated_full, required
+    )
     if missing:
         return FileResult(
             path=path,
@@ -174,7 +199,13 @@ def _handle_file(
         )
 
     changed, d = _write_or_diff(path, patched, dry_run=dry_run, print_diff=print_diff)
-    return FileResult(path=path, action="updated" if changed else "skipped", message="updated" if changed else "no changes", changed=changed, diff=d)
+    return FileResult(
+        path=path,
+        action="updated" if changed else "skipped",
+        message="updated" if changed else "no changes",
+        changed=changed,
+        diff=d,
+    )
 
 
 def apply_config(
@@ -213,11 +244,15 @@ def apply_config(
         prompt_path = prompt_dir / "execspec.md"
         tpl = prompt_template_path("execspec.md")
         prompt_content = normalize_markdown(tpl.read_text(encoding="utf-8"))
-        changed, d = _write_or_diff(prompt_path, prompt_content, dry_run=dry_run, print_diff=print_diff)
+        changed, d = _write_or_diff(
+            prompt_path, prompt_content, dry_run=dry_run, print_diff=print_diff
+        )
         results.append(
             FileResult(
                 path=prompt_path,
-                action="created" if not prompt_path.exists() else ("updated" if changed else "skipped"),
+                action="created"
+                if not prompt_path.exists()
+                else ("updated" if changed else "skipped"),
                 message="prompt written" if changed else "prompt unchanged",
                 changed=changed,
                 diff=d,
@@ -236,12 +271,18 @@ def init_or_update(
 ) -> list[FileResult]:
     # Back-compat wrapper for older callers.
     cfg = ToolConfig.from_project_info(info.normalized())
-    return apply_config(target, cfg, write_prompts=write_prompts, dry_run=dry_run, print_diff=print_diff)
+    return apply_config(
+        target, cfg, write_prompts=write_prompts, dry_run=dry_run, print_diff=print_diff
+    )
 
 
-def update_from_config(target: Path, dry_run: bool, print_diff: bool) -> list[FileResult]:
+def update_from_config(
+    target: Path, dry_run: bool, print_diff: bool
+) -> list[FileResult]:
     tool_cfg = load_tool_config(target)
-    return apply_config(target, tool_cfg, write_prompts=False, dry_run=dry_run, print_diff=print_diff)
+    return apply_config(
+        target, tool_cfg, write_prompts=False, dry_run=dry_run, print_diff=print_diff
+    )
 
 
 def check_repo(target: Path) -> tuple[int, list[str], list[str]]:
@@ -272,7 +313,11 @@ def check_repo(target: Path) -> tuple[int, list[str], list[str]]:
                 problems.append(f"{fname}: {mp.message}")
 
         # Required sections must exist.
-        required = required_sections(info.stack) if fname == AGENTS_FILENAME else required_runbook_sections()
+        required = (
+            required_sections(info.stack)
+            if fname == AGENTS_FILENAME
+            else required_runbook_sections()
+        )
         for sec in required:
             if extract_section_content(text, sec) is None:
                 problems.append(f"{fname}: missing section markers for '{sec}'")
@@ -281,7 +326,12 @@ def check_repo(target: Path) -> tuple[int, list[str], list[str]]:
                 if not body:
                     problems.append(f"{fname}: section '{sec}' is empty")
                 # Basic placeholder detection (cheap + useful).
-                if body in ("- (not specified)", "- (none)", "- (no commands configured)", "- (not set)"):
+                if body in (
+                    "- (not specified)",
+                    "- (none)",
+                    "- (no commands configured)",
+                    "- (not set)",
+                ):
                     warnings.append(
                         f"{fname}: section '{sec}' looks like a placeholder; fill it or remove the section"
                     )

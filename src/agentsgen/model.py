@@ -23,8 +23,12 @@ class ProjectInfo:
     warnings: list[str] = field(default_factory=list)
 
     def normalized(self) -> "ProjectInfo":
-        self.source_dirs = sorted({x.strip() for x in self.source_dirs if x and x.strip()})
-        self.config_locations = sorted({x.strip() for x in self.config_locations if x and x.strip()})
+        self.source_dirs = sorted(
+            {x.strip() for x in self.source_dirs if x and x.strip()}
+        )
+        self.config_locations = sorted(
+            {x.strip() for x in self.config_locations if x and x.strip()}
+        )
         self.warnings = sorted({x.strip() for x in self.warnings if x and x.strip()})
 
         # Stable command ordering isn't required in JSON, but keep keys consistent.
