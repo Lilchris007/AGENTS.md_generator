@@ -1,5 +1,11 @@
 # AGENTS.md Generator (`agentsgen`)
 
+[![CI](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/ci.yml/badge.svg)](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/ci.yml)
+[![Pages](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/pages/pages-build-deployment)
+[![Release](https://img.shields.io/github/v/release/markoblogo/AGENTS.md_generator?display_name=tag&sort=semver)](https://github.com/markoblogo/AGENTS.md_generator/releases)
+[![License](https://img.shields.io/github/license/markoblogo/AGENTS.md_generator)](LICENSE)
+[![Python](https://img.shields.io/badge/python-%3E%3D3.11-blue)](pyproject.toml)
+
 Small, production-grade CLI to generate and safely update:
 
 - `AGENTS.md` (strict repo contract for coding agents)
