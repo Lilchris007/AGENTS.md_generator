@@ -22,8 +22,12 @@ agents = "agentsgen.cli:main"
 [project.optional-dependencies]
 dev = [
   "pytest>=8,<10",
-  "ruff>=0.6,<1.0"
+  # Pin ruff to keep CI formatting deterministic.
+  "ruff==0.6.9"
 ]
+
+[tool.ruff]
+required-version = "0.6.9"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
