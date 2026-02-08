@@ -99,7 +99,7 @@
   }
   </script>
   <!-- Cache bust (Pages/CDN/browser). Update version when changing CSS. -->
-  <link rel="stylesheet" href="/assets/styles.css?v=20260208" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260208b" />
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
@@ -107,16 +107,16 @@
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="brand">
-        <span class="badge">agentsgen</span>
+        <span class="pill">agentsgen</span>
         <span class="brand-title">AGENTS.md Generator</span>
       </div>
-      <nav class="navlinks" aria-label="Sections">
-        <a href="https://github.com/markoblogo/AGENTS.md_generator">GitHub</a>
-        <a href="#quickstart">Quickstart</a>
-        <a href="#safety">Safety</a>
-        <a href="#detect">Detect</a>
-        <a href="#faq">FAQ</a>
-        <a href="#limitations">Limitations</a>
+      <nav class="nav" aria-label="Sections">
+        <a class="link" href="#quickstart">Quickstart</a>
+        <a class="link" href="#safety">Safety</a>
+        <a class="link" href="#detect">Detect</a>
+        <a class="link" href="#faq">FAQ</a>
+        <a class="link" href="#limitations">Limitations</a>
+        <a class="btn secondary" href="https://github.com/markoblogo/AGENTS.md_generator">GitHub</a>
       </nav>
     </div>
   </header>
@@ -124,70 +124,18 @@
   <main id="content">
     <section class="hero">
       <div class="container">
-        <div class="kicker reveal">Safe by default. Diff-first. No magic.</div>
+        <div class="badge">Safe-by-default. Marker-only updates. <span>diff-first</span></div>
+        <h1>AGENTS.md Generator for AI coding agents</h1>
+        <p class="lede">
+          Generate and maintain <strong>AGENTS.md</strong> / <strong>RUNBOOK.md</strong> safely: marker-based updates,
+          diff-first workflow, and conservative auto-detect of repo commands. Built for Claude Code, Codex, Cursor,
+          and similar agents that need repo context fast.
+        </p>
 
-        <div class="hero-grid">
-          <div class="reveal">
-            <h1>AGENTS.md Generator for AI coding agents</h1>
-            <p class="subtitle">
-              Generate and maintain <strong>AGENTS.md</strong> / <strong>RUNBOOK.md</strong> safely: marker-based updates,
-              diff-first workflow, and conservative auto-detect of repo commands.
-              Built for Claude Code, Codex, Cursor, and similar agents that need repo context fast.
-            </p>
-
-            <div class="cta" role="group" aria-label="Primary actions">
-              <a class="btn primary" href="https://github.com/markoblogo/AGENTS.md_generator">View on GitHub</a>
-              <a class="btn" href="#quickstart">Get started</a>
-              <a class="btn ghost" href="#safety">Why it’s safe</a>
-            </div>
-          </div>
-
-          <div class="cards reveal" aria-label="Overview cards">
-            <div class="card">
-              <h3>Problem</h3>
-              <p>
-                AI agents are fast. Repo context is not. Most repos either have no agent docs,
-                or they’re outdated, inconsistent, and easy to break.
-              </p>
-              <ul>
-                <li>How to run tests / lint / build</li>
-                <li>What “done” means</li>
-                <li>What not to touch</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Solution</h3>
-              <p>
-                <strong>agentsgen</strong> creates and updates agent docs using a safety-first model:
-                updates only inside markers, otherwise generates a sibling file.
-              </p>
-              <ul>
-                <li>Markers + patch-by-range updates</li>
-                <li>Diff-first workflow (<code>--dry-run</code>, <code>--print-diff</code>)</li>
-                <li>Auto-detect (no AI)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="safety">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Safety model</h2>
-        </div>
-        <div class="panel">
-          <div class="panel-inner">
-            <ul class="bullets">
-              <li>Updates are limited to marked sections.</li>
-              <li><code>--dry-run</code> and <code>--print-diff</code> are first-class.</li>
-              <li>If the file has no markers, the original stays untouched: <code>AGENTS.generated.md</code>.</li>
-            </ul>
-            <div class="note">
-              Three file modes: no file (create) · markers exist (patch) · no markers (write sibling).
-            </div>
-          </div>
+        <div class="hero-cta" role="group" aria-label="Primary actions">
+          <a class="btn primary" href="#quickstart">Get started</a>
+          <a class="btn secondary" href="https://github.com/markoblogo/AGENTS.md_generator">View on GitHub</a>
+          <a class="btn ghost" href="#safety">Why it’s safe</a>
         </div>
       </div>
     </section>
@@ -195,48 +143,28 @@
     <section id="quickstart">
       <div class="container">
         <div class="section-head">
-          <h2 class="section-title">Quickstart</h2>
+          <h2>Quickstart</h2>
+          <p>Three commands. Diff-first workflow. No repo damage.</p>
         </div>
+
         <div class="grid-2">
-          <div class="panel">
-            <div class="panel-inner">
-              <pre><code>pipx install git+https://github.com/markoblogo/AGENTS.md_generator
+          <div class="card code-card">
+            <button class="copy" type="button" data-copy-target="#qs-code">Copy</button>
+            <pre id="qs-code"><code>pipx install git+https://github.com/markoblogo/AGENTS.md_generator
 cd your-repo
 agentsgen init --autodetect
 agentsgen update --dry-run --print-diff
 agentsgen update</code></pre>
-              <div class="note">
-                Want a clean CI guardrail? Add <code>agentsgen check</code> to your pipeline to catch broken markers/config early.
-              </div>
-            </div>
+            <div class="note">Run <code>agentsgen check</code> in CI to validate markers/config.</div>
           </div>
-          <div class="panel">
-            <div class="panel-inner">
-              <h2>Three file modes</h2>
-              <ul class="bullets">
-                <li><strong>No file</strong> → create <code>AGENTS.md</code> / <code>RUNBOOK.md</code> with markers</li>
-                <li><strong>Markers exist</strong> → patch only content between marker pairs</li>
-                <li><strong>No markers</strong> → never overwrite → write <code>*.generated.md</code></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section id="detect">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Auto-detect (no AI)</h2>
-          <p class="section-lede">Priority rules:</p>
-        </div>
-        <div class="panel">
-          <div class="panel-inner">
+          <div class="card">
+            <h3>Use cases</h3>
             <ul class="bullets">
-              <li><strong>Makefile</strong> (dominant)</li>
-              <li><strong>package.json</strong> scripts</li>
-              <li>Python heuristics (uv / poetry / pytest / ruff, etc.)</li>
-              <li>Otherwise: minimal baseline (no hallucinated commands)</li>
+              <li>Add repo context for Claude Code / Codex without rewriting docs by hand.</li>
+              <li>Keep agent docs consistent across many repos.</li>
+              <li>Prevent destructive edits: marker-only updates.</li>
+              <li>Standardize test/lint/build commands without “guessing”.</li>
             </ul>
           </div>
         </div>
@@ -246,16 +174,91 @@ agentsgen update</code></pre>
     <section id="use-cases">
       <div class="container">
         <div class="section-head">
-          <h2 class="section-title">Use cases</h2>
+          <h2>Problem / solution</h2>
+          <p>AI agents are fast. Repo context is not.</p>
         </div>
-        <div class="panel">
-          <div class="panel-inner">
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Problem</h3>
+            <p>Most repos either have no agent docs, or they’re outdated, inconsistent, and easy to break.</p>
             <ul class="bullets">
-              <li>Add repo context for Claude Code / Codex without rewriting docs by hand.</li>
-              <li>Keep agent docs consistent across many repos (same safety model, same output protocol).</li>
-              <li>Prevent destructive edits: updates are marker-only; handcrafted docs stay yours.</li>
-              <li>Standardize install/test/lint/build commands without “guessing” (Makefile and scripts win).</li>
+              <li>How to run tests / lint / build</li>
+              <li>What “done” means</li>
+              <li>What not to touch</li>
             </ul>
+          </div>
+          <div class="card">
+            <h3>Solution</h3>
+            <p>
+              <strong>agentsgen</strong> creates and updates agent docs using a safety-first model:
+              updates only inside markers, otherwise generates a sibling file.
+            </p>
+            <ul class="bullets">
+              <li>Markers + patch-by-range updates</li>
+              <li>Diff-first workflow (<code>--dry-run</code>, <code>--print-diff</code>)</li>
+              <li>Auto-detect (no AI)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety">
+      <div class="container">
+        <div class="section-head">
+          <h2>Safety model</h2>
+          <p>Safe to re-run: only generated sections are owned. Handcrafted docs stay yours.</p>
+        </div>
+
+        <div class="safety-row">
+          <div class="card">
+            <div class="step">
+              <div class="num">1</div>
+              <div>
+                <strong>File missing</strong>
+                <div class="note">Create <code>AGENTS.md</code> / <code>RUNBOOK.md</code> with section markers.</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="step">
+              <div class="num">2</div>
+              <div>
+                <strong>Markers exist</strong>
+                <div class="note">Patch-by-range: update only inside marker pairs.</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="step">
+              <div class="num">3</div>
+              <div>
+                <strong>No markers</strong>
+                <div class="note">Never overwrite. Write <code>*.generated.md</code> sibling files instead.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="detect">
+      <div class="container">
+        <div class="section-head">
+          <h2>Auto-detect (no AI)</h2>
+          <p>Priority rules. Conservative defaults.</p>
+        </div>
+
+        <div class="card">
+          <ul class="bullets">
+            <li><strong>Makefile</strong> (dominant)</li>
+            <li><strong>package.json</strong> scripts</li>
+            <li>Python heuristics (uv / poetry / pytest / ruff, etc.)</li>
+            <li>Otherwise: minimal baseline (no hallucinated commands)</li>
+          </ul>
+          <div class="note">
+            What it does <strong>not</strong> do: no command execution, no network, no AI inference.
           </div>
         </div>
       </div>
@@ -264,8 +267,10 @@ agentsgen update</code></pre>
     <section id="faq">
       <div class="container">
         <div class="section-head">
-          <h2 class="section-title">FAQ</h2>
+          <h2>FAQ</h2>
+          <p>Short answers. No magic.</p>
         </div>
+
         <details>
           <summary>What is AGENTS.md?</summary>
           <div class="answer">
@@ -302,16 +307,16 @@ agentsgen update</code></pre>
     <section id="limitations">
       <div class="container">
         <div class="section-head">
-          <h2 class="section-title">Known limitations</h2>
+          <h2>Known limitations</h2>
+          <p>Conservative by design.</p>
         </div>
-        <div class="panel">
-          <div class="panel-inner">
-            <ul class="bullets">
-              <li>Monorepos may be detected as <code>mixed</code>, and commands can be left empty intentionally.</li>
-              <li>Unusual workflows should be defined explicitly in <code>.agentsgen.json</code>.</li>
-              <li>This generates process guidance, not a full developer handbook.</li>
-            </ul>
-          </div>
+
+        <div class="card">
+          <ul class="bullets">
+            <li>Monorepos may be detected as <code>mixed</code>, and commands can be left empty intentionally.</li>
+            <li>Unusual workflows should be defined explicitly in <code>.agentsgen.json</code>.</li>
+            <li>This generates process guidance, not a full developer handbook.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -333,5 +338,6 @@ agentsgen update</code></pre>
       </div>
     </div>
   </footer>
+  <script src="/assets/script.js?v=20260208b" defer></script>
 </body>
 </html>
