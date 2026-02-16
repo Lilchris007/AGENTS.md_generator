@@ -188,62 +188,77 @@ main section, .section{ padding: var(--section-y) 0; }
   display: grid;
   gap: 18px;
 }
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--card) 90%, var(--bg-soft));
-  box-shadow: var(--shadow-soft);
-  color: var(--accent-ink);
-  font-weight: 650;
-  font-size: 13px;
-}
-.badge span{
-  font-family: var(--mono);
-  color: color-mix(in oklab, var(--muted) 92%, var(--text));
-  font-weight: 600;
-}
 
 h1{
   margin: 16px 0 10px;
   font-size: clamp(36px, 6vw, 58px);
   letter-spacing: -.04em;
   line-height: 1.01;
+  position: relative;
+  z-index: 1;
 }
 .hero-title-wrap{
   position: relative;
 }
-.hero-badges{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-  margin: 4px 0 8px;
+.sticker-stack{
+  position: absolute;
+  left: -6px;
+  top: -18px;
+  z-index: 5;
+  display: inline-block;
+  margin-bottom: 10px;
 }
-.hero-badges .badge{
+.sticker{
   display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  font-weight:800;
-  letter-spacing:.04em;
-  font-size:12px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  border: 2px solid color-mix(in oklab, var(--text) 15%, transparent);
-  box-shadow: 0 4px 10px rgba(0,0,0,.14);
-  line-height: 1.1;
+  padding: 10px 14px;
+  border-radius:999px;
+  border: 2px solid rgba(0,0,0,.15);
+  box-shadow:
+    0 18px 35px rgba(0,0,0,.18),
+    0 2px 0 rgba(255,255,255,.35) inset;
+  position: relative;
+  transform-origin: 20% 50%;
+  user-select: none;
+  white-space: nowrap;
+  line-height: 1;
 }
-.hero-badges .badge--new{
-  background: color-mix(in oklab, var(--accent) 88%, #fff0a8);
-  color:#0b1b12;
-  transform: rotate(-2deg);
+.sticker:before{
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 999px;
+  border: 2px dashed rgba(255,255,255,.65);
+  opacity: .85;
+  pointer-events: none;
 }
-.hero-badges .badge--pack{
-  background: color-mix(in oklab, var(--accent-2) 84%, #d2f9ff);
-  color:#08111a;
-  transform: rotate(2deg);
+.sticker:after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.28), transparent 45%),
+    radial-gradient(circle at 80% 90%, rgba(0,0,0,.10), transparent 55%);
+  mix-blend-mode: overlay;
+  opacity: .65;
+  pointer-events: none;
+}
+.sticker--release{
+  background: #ff3b30;
+  color: #fff;
+  transform: rotate(-8deg);
+}
+.sticker--feature{
+  margin-left: 10px;
+  margin-top: 8px;
+  background: #ffd60a;
+  color: #111;
+  transform: rotate(6deg);
 }
 .lede{
   margin: 0;
@@ -563,6 +578,24 @@ details[open] summary::after{ transform: rotate(-135deg); }
   .section-head p{ max-width: none; }
 }
 
+@media (max-width: 640px){
+  .sticker-stack{
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sticker{
+    font-size: 12px;
+    padding: 8px 12px;
+    transform: none;
+  }
+  .sticker--feature{ margin-left: 0; margin-top: 0; }
+}
+
 @media (max-width: 520px){
   :root{ --pad: 18px; --section-y: 44px; }
   .brand{ min-width: 0; }
@@ -571,14 +604,9 @@ details[open] summary::after{ transform: rotate(-135deg); }
   .card{ padding: 18px; }
   .code-card{ padding: 14px; }
   .mini-badge{ margin-left: 0; margin-top: 8px; }
-  .hero-badges{
-    gap: 8px;
-    margin: 6px 0 10px;
-  }
-  .hero-badges .badge{
+  .sticker{
     font-size: 11px;
-    padding: 5px 9px;
-    transform: none;
+    padding: 7px 10px;
   }
 }
 
