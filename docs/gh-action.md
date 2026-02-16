@@ -2,6 +2,9 @@
 
 `agentsgen-guard` fails PRs when `AGENTS.md` / `RUNBOOK.md` are missing, invalid, or out of date based on `agentsgen check`.
 
+For the canonical onboarding flow, start in `README.md` Quickstart.
+This page is the deep-dive reference for all action inputs.
+
 ## Why
 
 - Keep agent instructions consistent across repositories
@@ -28,8 +31,9 @@ jobs:
         with:
           path: "."
           files: "AGENTS.md,RUNBOOK.md"
-          comment: "false"
-          pack_check: "false"
+          comment: "true"
+          pack_check: "true"
+          pack_format: "json"
 ```
 
 ## Inputs

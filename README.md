@@ -39,45 +39,59 @@ pip install -e .
 
 ## Quickstart
 
-Install (recommended for dev tools):
+Canonical onboarding path for a new repo:
+
+1. Install (`pipx` recommended):
 
 ```sh
 pipx install git+https://github.com/markoblogo/AGENTS.md_generator.git
 ```
 
-Generate files (autodetect on by default):
+2. Bootstrap docs with autodetect:
 
 ```sh
-agentsgen init --defaults
+agentsgen init --autodetect
 ```
 
-Preview changes safely:
+3. Add PR guard workflow (`.github/workflows/agentsgen-ci.yml`):
+
+```yaml
+name: agentsgen guard + pack check
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  agentsgen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: markoblogo/AGENTS.md_generator/.github/actions/agentsgen-guard@v0.1.2
+        with:
+          comment: "true"
+          files: "AGENTS.md,RUNBOOK.md"
+          pack_check: "true"
+          pack_format: "json"
+```
+
+4. Optional LLMO bundle:
 
 ```sh
-agentsgen update --dry-run --print-diff
+agentsgen pack --autodetect
 ```
 
-Apply updates + validate:
+5. Profit: fewer agent mistakes, safer updates, and better indexable repo context.
 
-```sh
-agentsgen update
-agentsgen check
-```
-
-Generate LLMO bundle (safe marker updates, same overwrite policy):
-
-```sh
-agentsgen pack --autodetect --dry-run --print-diff
-agentsgen pack
-agentsgen pack --check
-agentsgen pack --format json --dry-run
-```
-
-Uninstall:
-
-```sh
-pipx uninstall agentsgen
-```
+Deep dives:
+- Action options: `docs/gh-action.md`
+- LLMO pack details: `docs/llmo-pack.md`
+- Release process: `docs/release-checklist.md`
 
 ## GitHub Action: PR Guard
 
@@ -102,8 +116,8 @@ jobs:
         with:
           path: "."
           files: "AGENTS.md,RUNBOOK.md"
-          comment: "false"
-          pack_check: "true"  # optional: also enforce `agentsgen pack --check`
+          comment: "true"
+          pack_check: "true"
           pack_format: "json"
           # pack_autodetect: "true"
           # pack_llms_format: "md"
@@ -113,7 +127,7 @@ jobs:
           #   SECURITY_AI.md
 ```
 
-- Optional PR comment: set `comment: "true"` and grant `pull-requests: write`.
+- Optional PR comment: use `comment: "false"` if you prefer log-only mode.
 - Fork-safe by default: no extra secrets required.
 - `files` input is an action-level filter for reported file findings; core validation still runs through `check_repo`.
 - `pack_check: "true"` enforces `agentsgen pack --autodetect --check` in the same guard run.
