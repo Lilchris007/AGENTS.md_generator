@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: PR Guard + LLMO Pack drift check
-        uses: markoblogo/AGENTS.md_generator/.github/actions/agentsgen-guard@v0.1.2
+        uses: ./.github/actions/agentsgen-guard
         with:
           # Optional: post a sticky PR comment with remediation (best-effort)
           comment: true

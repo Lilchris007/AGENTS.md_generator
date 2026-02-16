@@ -365,9 +365,7 @@ def pack(
         cfg.pack.files = _parse_csv(files)
 
     dry_run_effective = dry_run or check
-    results = apply_pack(
-        target, cfg, dry_run=dry_run_effective, print_diff=print_diff
-    )
+    results = apply_pack(target, cfg, dry_run=dry_run_effective, print_diff=print_diff)
     errors = [r for r in results if r.action == "error"]
     drift = any(
         r.action in ("created", "updated", "generated") and r.changed for r in results

@@ -143,7 +143,9 @@ def _targeted_messages(
         m = msg.strip()
         return m.startswith(prefixes)
 
-    return [p for p in problems if keep_problem(p)], [w for w in warnings if keep_warning(w)]
+    return [p for p in problems if keep_problem(p)], [
+        w for w in warnings if keep_warning(w)
+    ]
 
 
 def _quote(value: str) -> str:
@@ -218,7 +220,9 @@ def _run_pack_check(
         return 2, "agentsgen command not found while running pack check", [], 0
     out = (p.stdout or "") + (("\n" + p.stderr) if p.stderr else "")
     drift_count, top_paths = (
-        _pack_drift_info_from_json(p.stdout or "", limit=5) if fmt == "json" else (0, [])
+        _pack_drift_info_from_json(p.stdout or "", limit=5)
+        if fmt == "json"
+        else (0, [])
     )
     return p.returncode, out.strip(), top_paths, drift_count
 
@@ -231,10 +235,9 @@ def main() -> int:
     comment = _to_bool(os.getenv("INPUT_COMMENT", "false"))
     token = os.getenv("INPUT_TOKEN", "")
     show_commands = _to_bool(os.getenv("INPUT_SHOW_COMMANDS", "true"), default=True)
-    pack_enabled = (
-        _to_bool(os.getenv("INPUT_PACK", "false"), default=False)
-        or _to_bool(os.getenv("INPUT_PACK_CHECK", "false"), default=False)
-    )
+    pack_enabled = _to_bool(
+        os.getenv("INPUT_PACK", "false"), default=False
+    ) or _to_bool(os.getenv("INPUT_PACK_CHECK", "false"), default=False)
     pack_format = os.getenv("INPUT_PACK_FORMAT", "json")
     pack_autodetect = _to_bool(os.getenv("INPUT_PACK_AUTODETECT", "true"), default=True)
     pack_llms_format = os.getenv("INPUT_PACK_LLMS_FORMAT", "")
@@ -340,7 +343,11 @@ def main() -> int:
                         (
                             f"Summary: drift detected in pack outputs ({pack_drift_count} files)"
                             if pack_failed
-                            else ("Summary: pack check passed" if pack_enabled else "Summary: pack check disabled")
+                            else (
+                                "Summary: pack check passed"
+                                if pack_enabled
+                                else "Summary: pack check disabled"
+                            )
                         ),
                         (
                             "Top files: " + ", ".join(pack_top_paths)
@@ -353,7 +360,9 @@ def main() -> int:
                         *fix_lines,
                     ]
                 ).strip()
-                _upsert_comment(token=token, repo=repo, issue_number=issue_number, body=comment_body)
+                _upsert_comment(
+                    token=token, repo=repo, issue_number=issue_number, body=comment_body
+                )
         except (HTTPError, URLError, TimeoutError, OSError) as e:
             print(
                 f"[agentsgen-guard] WARN: could not post PR comment: {e}",

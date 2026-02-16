@@ -54,4 +54,3 @@ def test_pack_json_output_includes_results(tmp_path: Path) -> None:
     assert payload["dry_run"] is True
     assert isinstance(payload["results"], list)
     assert len(payload["results"]) >= 1
-

@@ -248,13 +248,19 @@ def _pack_notes(cfg: ToolConfig, stack_label: str) -> str:
             "- Commands are intentionally conservative.\n"
             "- Configure explicit values in `.agentsgen.json` under `commands` and `pack`."
         )
-    return "- Keep these files concise and command-accurate. Avoid speculative guidance."
+    return (
+        "- Keep these files concise and command-accurate. Avoid speculative guidance."
+    )
 
 
 def _render_pack_file(cfg: ToolConfig, stack_tpl: str, template_name: str) -> str:
     primary = str((cfg.project or {}).get("primary_stack", "")).strip().lower()
     is_mixed = primary not in ("python", "node", "static")
-    project_name = str((cfg.project or {}).get("name", "")).strip() or cfg.project_info.project_name or "repository"
+    project_name = (
+        str((cfg.project or {}).get("name", "")).strip()
+        or cfg.project_info.project_name
+        or "repository"
+    )
 
     paths = cfg.paths or {}
     output_dir = (cfg.pack.output_dir or DEFAULT_PACK_OUTPUT_DIR).strip()
@@ -266,7 +272,9 @@ def _render_pack_file(cfg: ToolConfig, stack_tpl: str, template_name: str) -> st
         "source_dirs": _fmt_paths(list(paths.get("source_dirs", []) or [])),
         "config_locations": _fmt_paths(list(paths.get("config_locations", []) or [])),
         "docs_paths": _fmt_paths(list(paths.get("docs", []) or [])),
-        "ci_location": str(paths.get("ci", ".github/workflows/") or ".github/workflows/"),
+        "ci_location": str(
+            paths.get("ci", ".github/workflows/") or ".github/workflows/"
+        ),
         "cmd_install": _pack_command_value(cfg, "install", is_mixed),
         "cmd_dev": _pack_command_value(cfg, "dev", is_mixed),
         "cmd_test": _pack_command_value(cfg, "test", is_mixed),
@@ -314,7 +322,11 @@ def _pack_output_specs(cfg: ToolConfig) -> list[tuple[Path, str, list[str]]]:
     for rel_path, tpl_name, required in specs:
         key_path = str(rel_path).replace("\\", "/").lower()
         key_name = rel_path.name.lower()
-        if key_path in allow_set or key_name in allow_set or ("llms" in allow_set and key_name in {"llms.txt", "llms.md"}):
+        if (
+            key_path in allow_set
+            or key_name in allow_set
+            or ("llms" in allow_set and key_name in {"llms.txt", "llms.md"})
+        ):
             filtered.append((rel_path, tpl_name, required))
 
     # Always keep at least manifest file.
@@ -323,7 +335,9 @@ def _pack_output_specs(cfg: ToolConfig) -> list[tuple[Path, str, list[str]]]:
 
     rendered: list[tuple[Path, str, list[str]]] = []
     for rel_path, tpl_name, required in filtered:
-        rendered.append((rel_path, _render_pack_file(cfg, stack_tpl, tpl_name), required))
+        rendered.append(
+            (rel_path, _render_pack_file(cfg, stack_tpl, tpl_name), required)
+        )
     return rendered
 
 
