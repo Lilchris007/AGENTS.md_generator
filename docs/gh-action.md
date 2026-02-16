@@ -42,6 +42,10 @@ jobs:
 - `pack` (default: `"false"`) - also enforce `agentsgen pack --autodetect --check`
 - `pack_check` (default: `"false"`) - alias for `pack`
 - `pack_format` (default: `"json"`) - output format for pack check (`text|json`)
+- `pack_autodetect` (default: `"true"`) - pass `--autodetect` (or `--no-autodetect`)
+- `pack_llms_format` (default: empty) - optional `--llms-format` for pack check
+- `pack_output_dir` (default: empty) - optional `--output-dir` for pack check
+- `pack_files` (default: empty) - optional newline/comma-separated allowlist passed to `--files`
 - `version` (default: `"repo"`) - install mode: `repo` or `pypi`
 
 ### Note about `files`
@@ -81,6 +85,12 @@ To also guard LLMO pack drift:
     comment: "false"
     pack_check: "true"
     pack_format: "json"
+    pack_autodetect: "true"
+    # pack_llms_format: "md"
+    # pack_output_dir: "docs/ai"
+    # pack_files: |
+    #   llms
+    #   SECURITY_AI.md
 ```
 
 Example workflow file in this repo:

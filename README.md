@@ -104,6 +104,13 @@ jobs:
           files: "AGENTS.md,RUNBOOK.md"
           comment: "false"
           pack: "true"  # optional: also enforce `agentsgen pack --check`
+          pack_format: "json"
+          # pack_autodetect: "true"
+          # pack_llms_format: "md"
+          # pack_output_dir: "docs/ai"
+          # pack_files: |
+          #   llms
+          #   SECURITY_AI.md
 ```
 
 - Optional PR comment: set `comment: "true"` and grant `pull-requests: write`.

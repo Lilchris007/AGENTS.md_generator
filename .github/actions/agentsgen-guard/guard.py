@@ -48,6 +48,27 @@ def _split_files(raw: str) -> list[str]:
     return out
 
 
+def _pack_drift_info_from_json(output: str, limit: int = 5) -> tuple[int, list[str]]:
+    try:
+        payload = json.loads(output)
+    except Exception:
+        return 0, []
+    if not isinstance(payload, dict):
+        return 0, []
+    rows = payload.get("results", [])
+    if not isinstance(rows, list):
+        return 0, []
+    changed: list[str] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        action = str(row.get("action", "")).strip().lower()
+        path = str(row.get("path", "")).strip()
+        if path and action in {"created", "updated", "generated"}:
+            changed.append(path)
+    return len(changed), changed[:limit]
+
+
 def _load_event(path: str) -> dict[str, Any]:
     if not path:
         return {}
@@ -162,17 +183,44 @@ def _build_fix_lines(
     return lines
 
 
-def _run_pack_check(path: str, pack_format: str) -> tuple[int, str]:
+def _run_pack_check(
+    path: str,
+    pack_format: str,
+    *,
+    pack_autodetect: bool,
+    pack_llms_format: str,
+    pack_output_dir: str,
+    pack_files: list[str],
+) -> tuple[int, str, list[str], int]:
     fmt = (pack_format or "json").strip().lower()
     if fmt not in {"json", "text"}:
         fmt = "json"
-    p = subprocess.run(
-        ["agentsgen", "pack", path, "--autodetect", "--check", "--format", fmt],
-        capture_output=True,
-        text=True,
-    )
+    cmd = ["agentsgen", "pack", path, "--check", "--format", fmt]
+    if pack_autodetect:
+        cmd.append("--autodetect")
+    else:
+        cmd.append("--no-autodetect")
+    llms_fmt = (pack_llms_format or "").strip()
+    if llms_fmt:
+        cmd.extend(["--llms-format", llms_fmt])
+    out_dir = (pack_output_dir or "").strip()
+    if out_dir:
+        cmd.extend(["--output-dir", out_dir])
+    if pack_files:
+        cmd.extend(["--files", ",".join(pack_files)])
+    try:
+        p = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        return 2, "agentsgen command not found while running pack check", [], 0
     out = (p.stdout or "") + (("\n" + p.stderr) if p.stderr else "")
-    return p.returncode, out.strip()
+    drift_count, top_paths = (
+        _pack_drift_info_from_json(p.stdout or "", limit=5) if fmt == "json" else (0, [])
+    )
+    return p.returncode, out.strip(), top_paths, drift_count
 
 
 def main() -> int:
@@ -188,21 +236,46 @@ def main() -> int:
         or _to_bool(os.getenv("INPUT_PACK_CHECK", "false"), default=False)
     )
     pack_format = os.getenv("INPUT_PACK_FORMAT", "json")
+    pack_autodetect = _to_bool(os.getenv("INPUT_PACK_AUTODETECT", "true"), default=True)
+    pack_llms_format = os.getenv("INPUT_PACK_LLMS_FORMAT", "")
+    pack_output_dir = os.getenv("INPUT_PACK_OUTPUT_DIR", "")
+    pack_files = _split_files(os.getenv("INPUT_PACK_FILES", ""))
 
     target = Path(path)
     code, problems, warnings = check_repo(target)
     problems, warnings = _targeted_messages(problems, warnings, files)
     pack_failed = False
     pack_output = ""
+    pack_top_paths: list[str] = []
+    pack_drift_count = 0
 
     if pack_enabled:
-        pack_code, pack_output = _run_pack_check(path, pack_format)
+        pack_code, pack_output, pack_top_paths, pack_drift_count = _run_pack_check(
+            path,
+            pack_format,
+            pack_autodetect=pack_autodetect,
+            pack_llms_format=pack_llms_format,
+            pack_output_dir=pack_output_dir,
+            pack_files=pack_files,
+        )
         if pack_code != 0:
             pack_failed = True
 
     if warnings:
         for w in warnings:
             print(f"[agentsgen-guard] WARN: {w}", file=sys.stderr)
+
+    if pack_enabled:
+        pack_status = "DRIFT" if pack_failed else "OK"
+        print(
+            f"[agentsgen-guard] pack_check={pack_status} drift_count={pack_drift_count}",
+            file=sys.stderr,
+        )
+        if pack_top_paths:
+            print(
+                f"[agentsgen-guard] pack top files: {', '.join(pack_top_paths)}",
+                file=sys.stderr,
+            )
 
     if code == 0 and not problems and not pack_failed:
         summary = "agentsgen-guard: OK (AGENTS docs look up to date)."
@@ -257,6 +330,26 @@ def main() -> int:
                         else "This PR fails the AGENTS/LLMO docs guard.",
                         "",
                         "Required generated docs are missing/outdated for this repository.",
+                        "",
+                        "## 📦 LLMO Pack check",
+                        (
+                            "Status: DRIFT"
+                            if pack_failed
+                            else ("Status: OK" if pack_enabled else "Status: SKIPPED")
+                        ),
+                        (
+                            f"Summary: drift detected in pack outputs ({pack_drift_count} files)"
+                            if pack_failed
+                            else ("Summary: pack check passed" if pack_enabled else "Summary: pack check disabled")
+                        ),
+                        (
+                            "Top files: " + ", ".join(pack_top_paths)
+                            if pack_top_paths
+                            else "Top files: (not available)"
+                        ),
+                        "Fix:",
+                        "- Run: `agentsgen pack --autodetect`",
+                        "- Or: `agentsgen pack` (if your repo has explicit pack config)",
                         *fix_lines,
                     ]
                 ).strip()

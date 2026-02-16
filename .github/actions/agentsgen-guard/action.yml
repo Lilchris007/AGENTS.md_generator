@@ -35,6 +35,22 @@ inputs:
     description: "Pack check output format: text|json"
     required: false
     default: "json"
+  pack_autodetect:
+    description: "If true, run pack check with autodetect (otherwise pass --no-autodetect)"
+    required: false
+    default: "true"
+  pack_llms_format:
+    description: "Optional llms format override passed to pack check (txt|md)"
+    required: false
+    default: ""
+  pack_output_dir:
+    description: "Optional output directory override passed to pack check"
+    required: false
+    default: ""
+  pack_files:
+    description: "Optional newline/comma-separated pack output allowlist"
+    required: false
+    default: ""
   version:
     description: "Install mode: repo (default) or pypi"
     required: false
@@ -80,6 +96,10 @@ runs:
         INPUT_PACK: ${{ inputs.pack }}
         INPUT_PACK_CHECK: ${{ inputs.pack_check }}
         INPUT_PACK_FORMAT: ${{ inputs.pack_format }}
+        INPUT_PACK_AUTODETECT: ${{ inputs.pack_autodetect }}
+        INPUT_PACK_LLMS_FORMAT: ${{ inputs.pack_llms_format }}
+        INPUT_PACK_OUTPUT_DIR: ${{ inputs.pack_output_dir }}
+        INPUT_PACK_FILES: ${{ inputs.pack_files }}
       run: |
         set -euo pipefail
         python "${GITHUB_ACTION_PATH}/guard.py"
