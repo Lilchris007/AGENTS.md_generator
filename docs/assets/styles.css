@@ -199,17 +199,19 @@ h1{
 }
 .hero-title-wrap{
   position: relative;
+  padding-top: 34px;
 }
 .sticker-stack{
   position: absolute;
-  left: -6px;
-  top: -18px;
+  left: -8px;
+  top: -30px;
+  width: 430px;
+  height: 120px;
   z-index: 5;
-  display: inline-block;
-  margin-bottom: 10px;
+  pointer-events: none;
 }
 .sticker{
-  display:inline-block;
+  display:inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
@@ -226,6 +228,7 @@ h1{
   user-select: none;
   white-space: nowrap;
   line-height: 1;
+  clip-path: polygon(2% 12%, 11% 4%, 28% 2%, 55% 3%, 78% 1%, 95% 6%, 99% 18%, 98% 42%, 100% 63%, 96% 87%, 85% 98%, 62% 99%, 38% 97%, 16% 99%, 4% 90%, 1% 72%, 0% 50%, 1% 31%);
 }
 .sticker:before{
   content: "";
@@ -249,16 +252,41 @@ h1{
   pointer-events: none;
 }
 .sticker--release{
+  position: absolute;
+  left: 0;
+  top: 0;
   background: #ff3b30;
   color: #fff;
   transform: rotate(-8deg);
 }
 .sticker--feature{
-  margin-left: 10px;
-  margin-top: 8px;
+  position: absolute;
+  left: 148px;
+  top: 10px;
   background: #ffd60a;
   color: #111;
   transform: rotate(6deg);
+}
+.sticker--micro{
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  position: absolute;
+  left: 12px;
+  top: 44px;
+  background: #39ff14;
+  color: #0b0f0b;
+  border: 2px solid rgba(0,0,0,.18);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.16),
+    0 2px 0 rgba(255,255,255,.35) inset;
+  transform: rotate(-12deg);
+  z-index: 6;
+}
+.sticker--micro:before{
+  inset: 5px;
+  border-color: rgba(255,255,255,.55);
 }
 .lede{
   margin: 0;
@@ -583,17 +611,29 @@ details[open] summary::after{ transform: rotate(-135deg); }
     position: relative;
     left: 0;
     top: 0;
+    width: auto;
+    height: auto;
     margin-bottom: 12px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    pointer-events: auto;
   }
   .sticker{
     font-size: 12px;
     padding: 8px 12px;
     transform: none;
+    position: relative;
+    left: 0;
+    top: 0;
   }
   .sticker--feature{ margin-left: 0; margin-top: 0; }
+  .sticker--micro{
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: rotate(-6deg);
+  }
 }
 
 @media (max-width: 520px){
