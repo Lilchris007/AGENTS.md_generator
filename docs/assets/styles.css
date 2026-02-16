@@ -1,9 +1,9 @@
 :root{
   color-scheme: light dark;
 
-  --max: 1040px;
-  --pad: 24px;
-  --section-y: 64px;
+  --max: 980px;
+  --pad: 20px;
+  --section-y: 72px;
   --radius: 16px;
   --radius-sm: 12px;
 
@@ -183,7 +183,7 @@ a:focus, a:focus-visible{
 header + main{ padding-top: 14px; }
 main section, .section{ padding: var(--section-y) 0; }
 
-.hero{ padding: 58px 0 24px; }
+.hero{ padding: 60px 0 28px; }
 .hero-grid{
   display: grid;
   gap: 18px;
@@ -256,6 +256,19 @@ h1{
   font-size: 30px;
   letter-spacing: -.02em;
 }
+.mini-badge{
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: middle;
+  color: color-mix(in oklab, var(--accent-ink) 78%, var(--text));
+  border: 1px solid color-mix(in oklab, var(--accent) 42%, var(--border));
+  background: color-mix(in oklab, var(--accent) 14%, var(--card));
+}
 .section-head p{
   margin: 0;
   color: var(--muted);
@@ -299,14 +312,35 @@ h1{
 #guard .card:first-child{
   border-color: color-mix(in oklab, var(--accent-2) 30%, var(--border));
 }
+.section-primary{
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--accent-2) 7%, transparent),
+    color-mix(in oklab, var(--accent) 4%, transparent)
+  );
+  border-top: 1px solid color-mix(in oklab, var(--accent-2) 28%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--accent-2) 20%, transparent);
+}
 
 .code-card{
-  position: relative;
   padding: 16px;
   background: linear-gradient(180deg, color-mix(in oklab, #0b1422 88%, var(--card)), color-mix(in oklab, #121f34 80%, var(--card)));
   border-color: color-mix(in oklab, #263a57 55%, var(--border));
 }
 .code-card .note{ color: #c5d4e8; }
+.code-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.code-label{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #b9cced;
+}
 
 pre, code{ font-family: var(--mono); }
 pre{
@@ -334,9 +368,6 @@ pre code{
 }
 
 .copy{
-  position: absolute;
-  top: 14px;
-  right: 14px;
   border-radius: 999px;
   padding: 8px 10px;
   border: 1px solid color-mix(in oklab, #42628b 70%, var(--border));
@@ -501,9 +532,13 @@ details[open] summary::after{ transform: rotate(-135deg); }
 }
 
 @media (max-width: 520px){
-  :root{ --pad: 18px; --section-y: 48px; }
+  :root{ --pad: 18px; --section-y: 44px; }
   .brand{ min-width: 0; }
   .topbar-inner{ padding: 12px 0; }
+  h1{ font-size: clamp(32px, 11vw, 36px); line-height: 1.04; }
+  .card{ padding: 18px; }
+  .code-card{ padding: 14px; }
+  .mini-badge{ margin-left: 0; margin-top: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce){

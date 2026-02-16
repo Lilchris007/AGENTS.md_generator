@@ -185,17 +185,16 @@
             </ul>
           </div>
           <div class="card code-card">
-            <button class="copy" type="button" data-copy-target="#qs-code">Copy</button>
+            <div class="code-head">
+              <span class="code-label">Quickstart</span>
+              <button class="copy" type="button" data-copy-target="#qs-code">Copy</button>
+            </div>
             <pre id="qs-code"><code>pipx install git+https://github.com/markoblogo/AGENTS.md_generator
 cd your-repo
-
-# 1) create AGENTS.md / RUNBOOK.md (autodetect stack + commands)
 agentsgen init --autodetect
-
-# 2) update safely (diff-first)
 agentsgen update --dry-run --print-diff
 agentsgen update
-# 3) optional: pack drift check
+# optional
 agentsgen pack --autodetect --check</code></pre>
             <div class="note">In CI, run <code>agentsgen check</code> (and optionally <code>pack --check</code>) to fail drift early.</div>
           </div>
@@ -239,10 +238,10 @@ agentsgen pack --autodetect --check</code></pre>
       </div>
     </section>
 
-    <section id="guard">
+    <section id="guard" class="section-primary">
       <div class="container">
         <div class="section-head">
-          <h2>PR Guard + Pack drift check</h2>
+          <h2>PR Guard + Pack drift check <span class="mini-badge">Recommended</span></h2>
           <p>Fail PRs when agent docs drift. Optionally enforce LLMO pack drift in the same job.</p>
         </div>
 
@@ -257,7 +256,10 @@ agentsgen pack --autodetect --check</code></pre>
             <div class="note">Works on forks (best-effort comments).</div>
           </div>
           <div class="card code-card">
-            <button class="copy" type="button" data-copy-target="#guard-code">Copy</button>
+            <div class="code-head">
+              <span class="code-label">Workflow</span>
+              <button class="copy" type="button" data-copy-target="#guard-code">Copy</button>
+            </div>
             <pre id="guard-code"><code>name: agentsgen guard + pack check
 
 on:
@@ -388,7 +390,7 @@ jobs:
       <div class="container">
         <div class="section-head">
           <h2>FAQ</h2>
-          <p>Short answers. No magic.</p>
+          <p>Short answers.</p>
         </div>
 
         <details>
