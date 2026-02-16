@@ -69,6 +69,8 @@ Generate LLMO bundle (safe marker updates, same overwrite policy):
 ```sh
 agentsgen pack --autodetect --dry-run --print-diff
 agentsgen pack
+agentsgen pack --check
+agentsgen pack --format json --dry-run
 ```
 
 Uninstall:

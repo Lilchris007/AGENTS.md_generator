@@ -68,6 +68,19 @@ def _print_results(results, print_diff: bool) -> None:
                 console.print(r.diff)
 
 
+def _results_payload(results) -> list[dict[str, object]]:
+    return [
+        {
+            "path": str(r.path),
+            "action": r.action,
+            "message": r.message,
+            "changed": bool(r.changed),
+            "diff": r.diff or "",
+        }
+        for r in results
+    ]
+
+
 def _interactive_init(
     target: Path,
     defaults: bool,
@@ -309,6 +322,16 @@ def pack(
         "--files",
         help="Comma-separated allowlist (e.g. llms,how-to-run.md,SECURITY_AI.md)",
     ),
+    check: bool = typer.Option(
+        False,
+        "--check",
+        help="Validate that pack files are up to date (non-zero if drift is detected)",
+    ),
+    format: str = typer.Option(
+        "text",
+        "--format",
+        help="Output format: text|json",
+    ),
     dry_run: bool = typer.Option(False, "--dry-run", help="Do not write files"),
     print_diff: bool = typer.Option(False, "--print-diff", help="Print unified diff"),
 ):
@@ -341,13 +364,55 @@ def pack(
     if files is not None:
         cfg.pack.files = _parse_csv(files)
 
-    results = apply_pack(target, cfg, dry_run=dry_run, print_diff=print_diff)
+    dry_run_effective = dry_run or check
+    results = apply_pack(
+        target, cfg, dry_run=dry_run_effective, print_diff=print_diff
+    )
     errors = [r for r in results if r.action == "error"]
-    _print_results(results, print_diff=print_diff)
+    drift = any(
+        r.action in ("created", "updated", "generated") and r.changed for r in results
+    )
+
+    status = "ok"
+    if errors:
+        status = "error"
+    elif check and drift:
+        status = "drift"
+
+    summary = (
+        f"pack:{status} "
+        f"(created={sum(1 for r in results if r.action == 'created')}, "
+        f"updated={sum(1 for r in results if r.action == 'updated')}, "
+        f"generated={sum(1 for r in results if r.action == 'generated')}, "
+        f"errors={len(errors)})"
+    )
+
+    if format == "json":
+        console.print(
+            json.dumps(
+                {
+                    "status": status,
+                    "summary": summary,
+                    "check": check,
+                    "dry_run": dry_run_effective,
+                    "results": _results_payload(results),
+                },
+                indent=2,
+            )
+        )
+    else:
+        _print_results(results, print_diff=print_diff)
+        console.print(summary)
+        if check and drift:
+            err_console.print(
+                "Pack drift detected. Run `agentsgen pack` to update generated files."
+            )
 
     if errors:
         for e in errors:
             err_console.print(f"ERROR: {e.path}: {e.message}")
+        raise typer.Exit(code=1)
+    if check and drift:
         raise typer.Exit(code=1)
 
 
