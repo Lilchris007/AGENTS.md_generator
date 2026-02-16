@@ -193,5 +193,6 @@ Template PRs welcome (shared sections and stack-specific notes).
 ## Releasing
 
 - Use checklist: `docs/release-checklist.md`
-- Release notes live in `RELEASES/` (start from `RELEASES/template.md`)
+- Write release notes: `RELEASES/template.md -> RELEASES/vX.Y.Z.md`
+- Run: `./scripts/release.sh vX.Y.Z A|B|C`
 - Tags follow `vX.Y.Z` and should point to the release commit

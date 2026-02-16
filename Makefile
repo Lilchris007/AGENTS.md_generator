@@ -1,4 +1,4 @@
-.PHONY: install test lint format snapshot
+.PHONY: install test lint format snapshot release
 
 install:
 	python3 -m venv .venv
@@ -17,3 +17,5 @@ format:
 snapshot:
 	. .venv/bin/activate && python scripts/snapshot.py
 
+release:
+	@echo "Usage: ./scripts/release.sh vX.Y.Z A|B|C"

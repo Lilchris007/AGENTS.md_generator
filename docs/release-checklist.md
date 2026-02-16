@@ -39,6 +39,7 @@ Use this when distribution/monetization/support flows are active.
 - `git status -sb` is clean
 - CI on `main` is green (or tests just ran locally)
 - target version is chosen (`vX.Y.Z`)
+- Optional helper script: `./scripts/release.sh vX.Y.Z A|B|C`
 
 ## Mode A checklist (5-10 min)
 
@@ -136,4 +137,3 @@ Do everything in Mode B, plus:
 ## Known limitations
 - ...
 ```
-
