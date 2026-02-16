@@ -40,6 +40,8 @@ jobs:
 - `token` (default: `${{ github.token }}`) - token for comment API calls
 - `show_commands` (default: `"true"`) - include local fix commands in logs/comment
 - `pack` (default: `"false"`) - also enforce `agentsgen pack --autodetect --check`
+- `pack_check` (default: `"false"`) - alias for `pack`
+- `pack_format` (default: `"json"`) - output format for pack check (`text|json`)
 - `version` (default: `"repo"`) - install mode: `repo` or `pypi`
 
 ### Note about `files`
@@ -77,12 +79,14 @@ To also guard LLMO pack drift:
 - uses: markoblogo/AGENTS.md_generator/.github/actions/agentsgen-guard@v0.1.1
   with:
     comment: "false"
-    pack: "true"
+    pack_check: "true"
+    pack_format: "json"
 ```
 
 Example workflow file in this repo:
 
 - `.github/workflows/agentsgen-guard.example.yml`
+- `.github/workflows/agentsgen-ci.yml`
 
 ## Local remediation
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -31,6 +32,20 @@ def _to_bool(value: str, default: bool = False) -> bool:
     if v in {"0", "false", "no", "off"}:
         return False
     return default
+
+
+def _split_files(raw: str) -> list[str]:
+    # Accept comma-separated and/or newline-separated lists.
+    parts = [p.strip() for p in re.split(r"[\n,]+", raw or "") if p.strip()]
+    # Keep order but dedupe.
+    seen: set[str] = set()
+    out: list[str] = []
+    for p in parts:
+        if p in seen:
+            continue
+        seen.add(p)
+        out.append(p)
+    return out
 
 
 def _load_event(path: str) -> dict[str, Any]:
@@ -147,9 +162,12 @@ def _build_fix_lines(
     return lines
 
 
-def _run_pack_check(path: str) -> tuple[int, str]:
+def _run_pack_check(path: str, pack_format: str) -> tuple[int, str]:
+    fmt = (pack_format or "json").strip().lower()
+    if fmt not in {"json", "text"}:
+        fmt = "json"
     p = subprocess.run(
-        ["agentsgen", "pack", path, "--autodetect", "--check", "--format", "json"],
+        ["agentsgen", "pack", path, "--autodetect", "--check", "--format", fmt],
         capture_output=True,
         text=True,
     )
@@ -160,12 +178,16 @@ def _run_pack_check(path: str) -> tuple[int, str]:
 def main() -> int:
     path = (os.getenv("INPUT_PATH") or ".").strip() or "."
     files_raw = os.getenv("INPUT_FILES", "AGENTS.md,RUNBOOK.md")
-    files = [f.strip() for f in files_raw.split(",") if f.strip()]
+    files = _split_files(files_raw)
     files_arg = ",".join(files) if files else "AGENTS.md,RUNBOOK.md"
     comment = _to_bool(os.getenv("INPUT_COMMENT", "false"))
     token = os.getenv("INPUT_TOKEN", "")
     show_commands = _to_bool(os.getenv("INPUT_SHOW_COMMANDS", "true"), default=True)
-    pack_enabled = _to_bool(os.getenv("INPUT_PACK", "false"), default=False)
+    pack_enabled = (
+        _to_bool(os.getenv("INPUT_PACK", "false"), default=False)
+        or _to_bool(os.getenv("INPUT_PACK_CHECK", "false"), default=False)
+    )
+    pack_format = os.getenv("INPUT_PACK_FORMAT", "json")
 
     target = Path(path)
     code, problems, warnings = check_repo(target)
@@ -174,7 +196,7 @@ def main() -> int:
     pack_output = ""
 
     if pack_enabled:
-        pack_code, pack_output = _run_pack_check(path)
+        pack_code, pack_output = _run_pack_check(path, pack_format)
         if pack_code != 0:
             pack_failed = True
 

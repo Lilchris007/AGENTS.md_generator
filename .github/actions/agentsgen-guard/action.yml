@@ -8,7 +8,7 @@ inputs:
     required: false
     default: "."
   files:
-    description: "Comma-separated list of files to check (e.g. AGENTS.md,RUNBOOK.md)"
+    description: "Comma/newline-separated list of files to check"
     required: false
     default: "AGENTS.md,RUNBOOK.md"
   comment:
@@ -27,6 +27,14 @@ inputs:
     description: "If true, also enforce `agentsgen pack --autodetect --check`"
     required: false
     default: "false"
+  pack_check:
+    description: "Alias of pack: enforce `agentsgen pack --autodetect --check`"
+    required: false
+    default: "false"
+  pack_format:
+    description: "Pack check output format: text|json"
+    required: false
+    default: "json"
   version:
     description: "Install mode: repo (default) or pypi"
     required: false
@@ -70,6 +78,8 @@ runs:
         INPUT_TOKEN: ${{ inputs.token }}
         INPUT_SHOW_COMMANDS: ${{ inputs.show_commands }}
         INPUT_PACK: ${{ inputs.pack }}
+        INPUT_PACK_CHECK: ${{ inputs.pack_check }}
+        INPUT_PACK_FORMAT: ${{ inputs.pack_format }}
       run: |
         set -euo pipefail
         python "${GITHUB_ACTION_PATH}/guard.py"

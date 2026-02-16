@@ -143,6 +143,11 @@ What it is:
 What it is not:
 - not a traffic/SEO promise, and not a full developer handbook replacement.
 
+### Why it matters
+- **Less agent babysitting.** Repos with `AGENTS.md` + `docs/ai/` reduce back-and-forth and "where is X?" questions for Codex/Claude.
+- **Safer automation by default.** Marker-only updates + `*.generated.*` fallback prevents accidental overwrites of hand-written docs.
+- **CI keeps it honest.** `agentsgen-guard` + `agentsgen pack --check` catches drift early, before docs rot and agents start hallucinating.
+
 Safety model is identical to `init`/`update`:
 
 1. Missing file -> create with markers.
