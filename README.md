@@ -187,3 +187,9 @@ This runs `ruff format`, `ruff check`, `pytest`, then commits only if there are 
 ## Contributing
 
 Template PRs welcome (shared sections and stack-specific notes).
+
+## Releasing
+
+- Use checklist: `docs/release-checklist.md`
+- Release notes live in `RELEASES/` (start from `RELEASES/template.md`)
+- Tags follow `vX.Y.Z` and should point to the release commit
