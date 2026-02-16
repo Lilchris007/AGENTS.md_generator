@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/markoblogo/AGENTS.md_generator)](LICENSE)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.11-blue)](pyproject.toml)
 
-![AGENTS.md Generator landing page](docs/agentsmdscreen.png)
+![AGENTS.md Generator landing page (v0.1.2)](docs/assets/agentsmd-landing-v0.1.2.png)
 
 Small, production-grade CLI to generate and safely update:
 
