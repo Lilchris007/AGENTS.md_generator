@@ -199,162 +199,7 @@ h1{
 }
 .hero-title-wrap{
   position: relative;
-  padding-top: 34px;
-}
-/* === HERO STICKERS (real sticker vibe, not badges) === */
-.hero-stickers{
-  position: absolute;
-  left: -10px;
-  top: -14px;
-  display: grid;
-  gap: 10px;
-  z-index: 5;
-  pointer-events: none;
-  transform: translateY(18px);
-}
-
-.sticker{
-  position: relative;
-  display: inline-block;
-  width: fit-content;
-  border: 3px solid rgba(255,255,255,.92);
-  box-shadow:
-    0 16px 40px rgba(0,0,0,.18),
-    0 2px 0 rgba(255,255,255,.55) inset;
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,.12));
-}
-
-.sticker__inner{
-  position: relative;
-  z-index: 2;
-}
-
-.sticker::before{
-  content:"";
-  position:absolute;
-  inset: 8px;
-  border: 2px dashed rgba(255,255,255,.85);
-  border-radius: inherit;
-  opacity: .95;
-}
-
-.sticker::after{
-  content:"";
-  position:absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%);
-  mix-blend-mode: screen;
-  opacity: .65;
-}
-
-.sticker--burst{
-  width: 112px;
-  height: 112px;
-  border-radius: 999px;
-  background: #ff3b30;
-  color: #fff;
-  transform: rotate(-10deg);
-  clip-path: polygon(
-    6% 10%, 18% 4%, 32% 8%, 46% 3%, 58% 8%, 72% 4%, 86% 10%,
-    96% 22%, 92% 36%, 97% 50%, 92% 64%, 96% 78%,
-    86% 90%, 72% 96%, 58% 92%, 46% 97%, 32% 92%, 18% 96%, 6% 90%,
-    4% 78%, 8% 64%, 3% 50%, 8% 36%, 4% 22%
-  );
-}
-
-.sticker--burst .sticker__inner{
-  width: 100%;
-  height: 100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  line-height: 1;
-}
-
-.sticker__top{
-  font-weight: 900;
-  letter-spacing: .08em;
-  font-size: 12px;
-  opacity: .95;
-}
-
-.sticker__mid{
-  font-weight: 900;
-  letter-spacing: .02em;
-  font-size: 18px;
-  margin-top: 4px;
-}
-
-.sticker__ver{
-  font-weight: 800;
-  font-size: 12px;
-  margin-top: 6px;
-  opacity: .95;
-}
-
-.sticker--label{
-  background: #ffd60a;
-  color: #111827;
-  border-radius: 14px;
-  padding: 10px 14px;
-  transform: rotate(6deg);
-  clip-path: polygon(0 0, 96% 0, 100% 50%, 96% 100%, 0 100%, 2% 50%);
-}
-
-.sticker--label .sticker__inner{
-  font-weight: 900;
-  font-size: 13px;
-  letter-spacing: .01em;
-  white-space: nowrap;
-}
-
-.sticker__kicker{
-  font-weight: 900;
-  margin-right: 6px;
-}
-
-.sticker--micro{
-  background: #00e5a8;
-  color: #06261c;
-  border-radius: 999px;
-  padding: 8px 12px;
-  transform: rotate(-12deg);
-}
-
-.sticker--micro .sticker__inner{
-  font-weight: 900;
-  font-size: 12px;
-  letter-spacing: .06em;
-  white-space: nowrap;
-}
-
-@media (min-width: 860px){
-  .hero-stickers{
-    left: -12px;
-    top: -26px;
-    transform: translateY(28px);
-  }
-}
-
-@media (max-width: 640px){
-  .hero-stickers{
-    position: static;
-    transform: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .sticker--burst{ width: 92px; height: 92px; }
-  .sticker,
-  .sticker--label,
-  .sticker--micro{
-    transform: none;
-  }
-  .sticker--label .sticker__inner{ white-space: normal; }
+  padding-top: 44px;
 }
 .lede{
   margin: 0;
@@ -686,6 +531,7 @@ details[open] summary::after{ transform: rotate(-135deg); }
     font-size: 11px;
     padding: 7px 10px;
   }
+  .hero-title-wrap{ padding-top: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -695,20 +541,23 @@ details[open] summary::after{ transform: rotate(-135deg); }
 
 /* --- HERO STICKERS (LOUD, PAPER, OVERLAP) --- */
 .hero { position: relative; }
-.hero-title-wrap { position: relative; padding-top: 20px; }
+.hero-grid,
+.hero-title-wrap{
+  position: relative;
+  overflow: visible;
+}
 
 .hero-sticker-cluster{
   position:absolute;
-  left: 0;
-  top: -10px;
+  left: -8px;
+  top: 10px;
   z-index: 30;
   display: grid;
   gap: 10px;
   pointer-events: none;
-  transform: translateY(18px);
 }
 
-.sticker{
+.hero-sticker-cluster .sticker{
   pointer-events: none;
   position: relative;
   display: inline-flex;
@@ -728,7 +577,7 @@ details[open] summary::after{ transform: rotate(-135deg); }
   filter: saturate(1.15);
 }
 
-.sticker::before{
+.hero-sticker-cluster .sticker::before{
   content:"";
   position:absolute;
   inset: 8px;
@@ -738,7 +587,7 @@ details[open] summary::after{ transform: rotate(-135deg); }
   pointer-events: none;
 }
 
-.sticker::after{
+.hero-sticker-cluster .sticker::after{
   content:"";
   position:absolute;
   inset: 0;
@@ -748,7 +597,7 @@ details[open] summary::after{ transform: rotate(-135deg); }
   pointer-events: none;
 }
 
-.sticker-burst{
+.hero-sticker-cluster .sticker-burst{
   background: #ff3b30;
   color: #fff;
   border-radius: 18px;
@@ -763,27 +612,27 @@ details[open] summary::after{ transform: rotate(-135deg); }
   );
 }
 
-.sticker-burst .sticker-kicker{
+.hero-sticker-cluster .sticker-burst .sticker-kicker{
   display:block;
   font-size: 12px;
   line-height: 1.0;
   opacity: .95;
 }
 
-.sticker-burst .sticker-big{
+.hero-sticker-cluster .sticker-burst .sticker-big{
   display:block;
   font-size: 18px;
   line-height: 1.1;
   margin-top: 2px;
 }
 
-.sticker-ribbon{
+.hero-sticker-cluster .sticker-ribbon{
   background: #ffd400;
   color: #0b1020;
   transform: rotate(6deg);
 }
 
-.sticker-micro{
+.hero-sticker-cluster .sticker-micro{
   background: #2bff88;
   color: #0b1020;
   transform: rotate(-12deg);
@@ -793,7 +642,7 @@ details[open] summary::after{ transform: rotate(-135deg); }
 
 @media (min-width: 900px){
   .hero-sticker-cluster{
-    top: 6px;
+    top: 14px;
     left: -8px;
   }
 }
@@ -801,12 +650,11 @@ details[open] summary::after{ transform: rotate(-135deg); }
 @media (max-width: 640px){
   .hero-sticker-cluster{
     position: static;
-    transform: none;
     margin-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
   }
-  .sticker{ transform: none; }
-  .sticker-burst{ clip-path: none; border-radius: 18px; }
+  .hero-sticker-cluster .sticker{ transform: none; }
+  .hero-sticker-cluster .sticker-burst{ clip-path: none; border-radius: 18px; }
 }
