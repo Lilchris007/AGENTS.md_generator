@@ -3,6 +3,7 @@
 ## What's inside
 - <1-3 bullets: user-visible changes>
 - <optional: internal refactor / tests / docs>
+- Recipes gallery: copy-paste starter kits (configs + CI) for common stacks so you can bootstrap AGENTS/RUNBOOK + PR Guard + Pack checks in minutes.
 
 ## Safety model (why it won't wreck your repo)
 - Marker-only updates: if `AGENTS.md` / `RUNBOOK.md` have `<!-- AGENTSGEN:START ... -->`, agentsgen updates only inside marker blocks.
@@ -30,4 +31,3 @@ agentsgen check .
 ## Notes
 - Docs: <README updated / link>
 - Tag: vX.Y.Z
-
