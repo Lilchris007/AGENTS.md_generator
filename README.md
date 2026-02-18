@@ -7,8 +7,10 @@
 [![Python](https://img.shields.io/badge/python-%3E%3D3.11-blue)](pyproject.toml)
 
 ![AGENTS.md Generator landing page (v0.1.2)](docs/assets/agentsmd-landing-v0.1.2.png)
+Landing: https://agentsmd.abvx.xyz/
 
 Small, production-grade CLI to generate and safely update:
+New: Recipes — copy-paste starter kits (explicit commands + PR Guard workflow).
 
 - `AGENTS.md` (strict repo contract for coding agents)
 - `RUNBOOK.md` (human-friendly command/run cheatsheet)
@@ -29,12 +31,12 @@ Marker format:
 <!-- AGENTSGEN:END section=commands -->
 ```
 
-## Install (from source)
+## Install (from source, for contributors)
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -e .
+pip install -e ".[dev]"
 ```
 
 ## Quickstart
@@ -50,7 +52,7 @@ pipx install git+https://github.com/markoblogo/AGENTS.md_generator.git
 2. Bootstrap docs with autodetect:
 
 ```sh
-agentsgen init --autodetect
+agentsgen init . --defaults --autodetect
 ```
 
 3. Add PR guard workflow (`.github/workflows/agentsgen-ci.yml`):
@@ -83,7 +85,7 @@ jobs:
 4. Optional LLMO bundle:
 
 ```sh
-agentsgen pack --autodetect
+agentsgen pack . --autodetect
 ```
 
 5. Profit: fewer agent mistakes, safer updates, and better indexable repo context.
@@ -96,7 +98,7 @@ Deep dives:
 ## Recipes
 
 Copy-paste starter kits (each includes an example `.agentsgen.json` with explicit commands + a PR Guard workflow snippet):
-Pick one → copy .agentsgen.json → run agentsgen init.
+Pick one → copy .agentsgen.json to your repo root → run: agentsgen init . --defaults --autodetect
 
 - **Python library (Poetry + pytest):** [`recipes/python-lib/`](recipes/python-lib/)
 - **Next.js app (pnpm):** [`recipes/nextjs-app/`](recipes/nextjs-app/)
@@ -154,6 +156,7 @@ agentsgen init
 agentsgen update
 agentsgen pack
 agentsgen check
+agentsgen detect . --format json
 agentsgen init --defaults --stack python --dry-run --print-diff
 pipx uninstall agentsgen
 ```
@@ -170,6 +173,8 @@ pipx uninstall agentsgen
 - `SECURITY_AI.md`
 - `CONTRIBUTING_AI.md`
 - `README_SNIPPETS.md`
+
+By default, pack writes AI docs into docs/ai/ (override via pack_output_dir).
 
 What it is:
 - a compact, agent-first context bundle for coding agents and LLM indexing.
