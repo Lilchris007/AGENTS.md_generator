@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "project": {
+    "name": "nextjs-app",
+    "stack": "nextjs",
+    "notes": "Recipe: Next.js + pnpm. Commands are explicit; adjust if your repo uses different scripts."
+  },
+  "files": {
+    "agents": "AGENTS.md",
+    "runbook": "RUNBOOK.md"
+  },
+  "safety": {
+    "marker_only": true,
+    "diff_first": true,
+    "no_network": true,
+    "no_exec": true
+  },
+  "commands": {
+    "install": [
+      "pnpm install --frozen-lockfile"
+    ],
+    "dev": [
+      "pnpm dev"
+    ],
+    "test": [
+      "pnpm test"
+    ],
+    "lint": [
+      "pnpm lint"
+    ],
+    "build": [
+      "pnpm build"
+    ],
+    "start": [
+      "pnpm start"
+    ]
+  },
+  "pack": {
+    "enabled": true,
+    "format_default": "json",
+    "include": [
+      "llms.txt",
+      "SECURITY_AI.md",
+      "CONTRIBUTING_AI.md",
+      "README_SNIPPETS.md",
+      "docs/ai/**"
+    ],
+    "notes": "Pack adds AI-readable entrypoints and repo context. Keep it enforced with pack --check in CI."
+  }
+}

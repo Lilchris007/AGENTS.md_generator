@@ -93,6 +93,15 @@ Deep dives:
 - LLMO pack details: `docs/llmo-pack.md`
 - Release process: `docs/release-checklist.md`
 
+## Recipes
+
+Copy-paste starter kits (each includes an example `.agentsgen.json` with explicit commands + a PR Guard workflow snippet):
+
+- **Python library (Poetry + pytest):** [`recipes/python-lib/`](recipes/python-lib/)
+- **Next.js app (pnpm):** [`recipes/nextjs-app/`](recipes/nextjs-app/)
+- **JS monorepo (workspaces):** [`recipes/monorepo-js/`](recipes/monorepo-js/)
+- **Node CLI tool:** [`recipes/cli-tool/`](recipes/cli-tool/)
+
 ## GitHub Action: PR Guard
 
 Use the reusable `agentsgen-guard` action to fail PRs when `AGENTS.md` / `RUNBOOK.md` are missing or out of date.

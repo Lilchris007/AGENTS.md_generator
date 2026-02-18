@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "project": {
+    "name": "cli-tool",
+    "stack": "node-cli",
+    "notes": "Recipe: Node CLI. Commands are explicit; adjust scripts if your repo differs."
+  },
+  "files": {
+    "agents": "AGENTS.md",
+    "runbook": "RUNBOOK.md"
+  },
+  "safety": {
+    "marker_only": true,
+    "diff_first": true,
+    "no_network": true,
+    "no_exec": true
+  },
+  "commands": {
+    "install": [
+      "npm ci"
+    ],
+    "dev": [
+      "npm run dev"
+    ],
+    "test": [
+      "npm test"
+    ],
+    "lint": [
+      "npm run lint"
+    ],
+    "build": [
+      "npm run build"
+    ],
+    "start": [
+      "npm start"
+    ]
+  },
+  "pack": {
+    "enabled": true,
+    "format_default": "json",
+    "include": [
+      "llms.txt",
+      "SECURITY_AI.md",
+      "CONTRIBUTING_AI.md",
+      "README_SNIPPETS.md",
+      "docs/ai/**"
+    ],
+    "notes": "Pack is optional, but recommended for tools intended to be used with coding agents."
+  }
+}
