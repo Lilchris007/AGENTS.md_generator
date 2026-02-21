@@ -225,3 +225,9 @@
   opacity: 0.9;
   white-space: normal;
 }
+
+:root[data-style="ascii"] .ascii-footnote a{
+  color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
