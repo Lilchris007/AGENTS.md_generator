@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-style="default">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -105,8 +105,21 @@
       document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
     })();
   </script>
+  <script>
+    (() => {
+      try {
+        const stored = localStorage.getItem("agentsmd_style_v1");
+        if (stored === "default" || stored === "ascii") {
+          document.documentElement.dataset.style = stored;
+          return;
+        }
+      } catch {}
+      document.documentElement.dataset.style = "default";
+    })();
+  </script>
   <!-- Cache bust (Pages/CDN/browser). Update version when changing CSS/JS. -->
   <link rel="stylesheet" href="/assets/styles.css?v=20260216c" />
+  <link rel="stylesheet" href="/ascii/ascii.css?v=20260221a" />
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
@@ -129,6 +142,10 @@
           <a class="link" href="#limitations">Limitations</a>
         </div>
         <div class="nav-right">
+          <div class="style-toggle" role="group" aria-label="Style mode">
+            <button class="btn ghost style-btn" type="button" id="style-default" data-style-value="default" aria-label="Use default visual style">Default</button>
+            <button class="btn ghost style-btn" type="button" id="style-ascii" data-style-value="ascii" aria-label="Use ASCII visual style">ASCII</button>
+          </div>
           <a class="btn secondary" href="https://github.com/markoblogo/AGENTS.md_generator">GitHub</a>
           <button class="btn ghost icon" type="button" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -147,16 +164,16 @@
           <div class="hero-left">
             <div class="hero-title-wrap">
               <div class="hero-sticker-cluster hero-stickers" aria-label="Release highlights">
-                <div class="sticker sticker-burst">
+                <div class="sticker sticker-burst" data-ascii-sticker="NEW RELEASE v0.1.2">
                   <span class="sticker-kicker">NEW RELEASE</span>
                   <span class="sticker-big">v0.1.2</span>
                 </div>
 
-                <div class="sticker sticker-ribbon">
+                <div class="sticker sticker-ribbon" data-ascii-sticker="NOW: PR Guard + LLMO Pack">
                   NOW: PR Guard + LLMO Pack
                 </div>
 
-                <div class="sticker sticker-micro">
+                <div class="sticker sticker-micro" data-ascii-sticker="SAFE UPDATES">
                   SAFE UPDATES
                 </div>
               </div>
@@ -475,6 +492,7 @@ jobs:
     </div>
   </footer>
   <script src="/assets/script.js?v=20260208d" defer></script>
+  <script src="/ascii/ascii.js?v=20260221a" defer></script>
   <script>
     // Theme toggle fallback: bind inline to survive stale-cached external JS.
     // Guarded to avoid double toggles if multiple scripts bind handlers.

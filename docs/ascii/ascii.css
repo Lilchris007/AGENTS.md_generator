@@ -1,0 +1,161 @@
+.style-toggle{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.style-btn{
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.style-btn[aria-pressed="true"]{
+  border-color: color-mix(in oklab, var(--accent) 48%, var(--border));
+  background: color-mix(in oklab, var(--bg-soft) 72%, transparent);
+  color: var(--text);
+}
+
+[data-style="ascii"]{
+  --font: var(--mono);
+}
+
+[data-style="ascii"][data-theme="light"]{
+  --ascii-bg: #ffffff;
+  --ascii-fg: #0b2a7a;
+  --ascii-muted: #143b97;
+  --ascii-border: #0b2a7a;
+}
+
+[data-style="ascii"][data-theme="dark"]{
+  --ascii-bg: #000000;
+  --ascii-fg: #39ff14;
+  --ascii-muted: #2ddc17;
+  --ascii-border: #39ff14;
+}
+
+[data-style="ascii"] body{
+  color: var(--ascii-fg);
+  background: var(--ascii-bg);
+  font-family: var(--mono);
+}
+
+[data-style="ascii"] *{
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+[data-style="ascii"] .card,
+[data-style="ascii"] .section-primary,
+[data-style="ascii"] .topbar,
+[data-style="ascii"] .btn,
+[data-style="ascii"] pre,
+[data-style="ascii"] details,
+[data-style="ascii"] code,
+[data-style="ascii"] .pill,
+[data-style="ascii"] .num{
+  border: 1px solid var(--ascii-border) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ascii-fg) !important;
+}
+
+[data-style="ascii"] .section-primary{
+  border-top: 1px solid var(--ascii-border) !important;
+  border-bottom: 1px solid var(--ascii-border) !important;
+}
+
+[data-style="ascii"] .note,
+[data-style="ascii"] .bullets,
+[data-style="ascii"] .section-head p,
+[data-style="ascii"] .brand-title,
+[data-style="ascii"] .footer,
+[data-style="ascii"] .footer a,
+[data-style="ascii"] .nav a.link{
+  color: var(--ascii-muted) !important;
+}
+
+[data-style="ascii"] .nav a.link:hover,
+[data-style="ascii"] .btn.ghost:hover,
+[data-style="ascii"] .btn:hover,
+[data-style="ascii"] details:hover{
+  color: var(--ascii-fg) !important;
+  background: transparent !important;
+}
+
+[data-style="ascii"] a{
+  color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-style="ascii"] .btn,
+[data-style="ascii"] .copy,
+[data-style="ascii"] details summary,
+[data-style="ascii"] a,
+[data-style="ascii"] button{
+  font-family: var(--mono);
+}
+
+[data-style="ascii"] .btn.primary,
+[data-style="ascii"] .btn.secondary,
+[data-style="ascii"] .btn.icon,
+[data-style="ascii"] .copy{
+  color: var(--ascii-fg) !important;
+}
+
+[data-style="ascii"] :focus-visible{
+  outline: 2px solid var(--ascii-fg) !important;
+  outline-offset: 2px;
+}
+
+[data-style="ascii"] .hero-sticker-cluster{
+  transform: none !important;
+  gap: 8px;
+}
+
+[data-style="ascii"] .sticker{
+  border: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  text-transform: none !important;
+}
+
+[data-style="ascii"] .sticker::before,
+[data-style="ascii"] .sticker::after,
+[data-style="ascii"] details summary::after{
+  content: none !important;
+}
+
+[data-style="ascii"] .ascii-sticker{
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  color: var(--ascii-fg);
+  background: transparent !important;
+  line-height: 1.2;
+  white-space: pre;
+}
+
+[data-style="ascii"] .hero-sticker-cluster,
+[data-style="ascii"] .hero-stickers,
+[data-style="ascii"] .hero-title-wrap,
+[data-style="ascii"] .hero-left,
+[data-style="ascii"] .hero,
+[data-style="ascii"] html,
+[data-style="ascii"] body{
+  overflow: visible;
+}
+
+@media (max-width: 900px){
+  .style-toggle{
+    gap: 4px;
+  }
+
+  .style-btn{
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+}
