@@ -53,12 +53,20 @@
     }
   };
 
-  const syncButtons = (style) => {
-    const buttons = Array.from(document.querySelectorAll("[data-style-value]"));
-    for (const btn of buttons) {
-      const pressed = btn.getAttribute("data-style-value") === style;
-      btn.setAttribute("aria-pressed", pressed ? "true" : "false");
-    }
+  const updateAsciiToggleUI = () => {
+    const toggle = document.querySelector("[data-ascii-toggle]");
+    if (!toggle) return;
+    const style = normalizeStyle(root.dataset.style || "default");
+    const asciiEnabled = style === "ascii";
+    toggle.textContent = asciiEnabled ? "Default" : "ASCII";
+    toggle.setAttribute(
+      "aria-label",
+      asciiEnabled ? "Switch to default style" : "Switch to ASCII style",
+    );
+    toggle.setAttribute(
+      "title",
+      asciiEnabled ? "Switch to default style" : "Switch to ASCII style",
+    );
   };
 
   const applyStyle = (style) => {
@@ -66,18 +74,19 @@
     root.dataset.style = next;
     setStoredStyle(next);
     renderStickers(next);
-    syncButtons(next);
+    updateAsciiToggleUI();
   };
 
   const init = () => {
     const initial = normalizeStyle(root.dataset.style || getStoredStyle());
     applyStyle(initial);
 
-    const buttons = Array.from(document.querySelectorAll("[data-style-value]"));
-    for (const btn of buttons) {
-      btn.addEventListener("click", () => {
-        const value = normalizeStyle(btn.getAttribute("data-style-value"));
-        applyStyle(value);
+    const toggle = document.querySelector("[data-ascii-toggle]");
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        const current = normalizeStyle(root.dataset.style || "default");
+        const next = current === "ascii" ? "default" : "ascii";
+        applyStyle(next);
       });
     }
   };
